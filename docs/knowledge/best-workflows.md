@@ -24,7 +24,7 @@ sources: ["https://github.com/Comfy-Org/workflow_templates","https://github.com/
 | 領域 | 最初に検証する候補 | それを選ぶ目的 | 別の目的なら |
 | --- | --- | --- | --- |
 | VRChatワールド | [Qwen Image 360](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/template_qwen_Image_2512_360_lora.json) | 360度背景・環境画像の素材を作る | ワールド全体のUnity構築、ギミック、最適化はこのWorkflowの範囲外 |
-| アバター・衣装 | [Pixal3D 4方向→GLB](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_pixal3d_multi_views.json) | 4方向画像から形状・テクスチャを持つ静的3D素材を作る | 骨格・MMD対応が必要なら[TripoSG→SkinToken→MMD](pipelines.md#しゃふかtriposgskintokenmmd-tools)との比較が必要 |
+| アバター・衣装 | [Pixal3D 4方向→GLB](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_pixal3d_multi_views.json) | 4方向画像から形状・テクスチャを持つ静的3D素材を作る | 骨格・MMD対応が必要なら[TripoSG→SkinToken→MMD](pipelines.md)との比較が必要 |
 | BOOTH商品 | [Pixal3D 4方向→GLB](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_pixal3d_multi_views.json) | 販売用3D素材の原型候補を作る | 画像商品の高精細化なら[SeedVR2](https://github.com/0c0/ComfyUI-Roundabout/blob/main/workflows/utility_seedvr2_upscale.json) |
 | YouTube・Shorts | [LTX 2.3 画像→動画](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/video_ltx2_3_i2v.json) | 既存イラスト・素材から動画を作る | テキストからは[LTX 2.3 T2V](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/video_ltx2_3_t2v.json)、字幕・Shorts編集は[外部パイプライン](pipelines.md) |
 | Podcast・音声 | [Chatterbox会話TTS](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/audio-chatterbox_tts_dialog.json) | 台詞・掛け合いの音声生成 | 音楽・効果音なら[ACE-Step 1.5](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/audio_ace_step_1_5_split_4b.json)、字幕動画は[Phrasync工程](pipelines.md) |
