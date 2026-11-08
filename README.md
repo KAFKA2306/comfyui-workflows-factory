@@ -3,7 +3,7 @@ id: "readme"
 title: "ComfyUI制作基盤"
 kind: "index"
 status: "active"
-updated: "2026-11-04"
+updated: "2026-11-08"
 tags: ["ComfyUI","Workflow","制作","8領域","uv"]
 related: ["docs/README.md","src/gwp/discovery.py"]
 sources: ["https://github.com/Comfy-Org/ComfyUI","https://github.com/Comfy-Org/workflow_templates"]
@@ -12,6 +12,10 @@ sources: ["https://github.com/Comfy-Org/ComfyUI","https://github.com/Comfy-Org/w
 # ComfyUI制作基盤
 
 公開されているComfyUIのWorkflowを収集し、出典と改訂履歴を残して作品制作に利用します。目標は、次の8領域で作品を完成・公開し、制作に使った工程と知識を再利用できるようにすることです。
+
+## 現時点の最有力Workflow
+
+**[8領域の最有力候補・原典・代替・未検証事項を見る](docs/knowledge/best-workflows.md)**。人間向けの判断入口です。収集候補の人気順位と実機で品質を確認した「ベスト」は区別しています。
 
 ## 対等な8つの長期目標
 
