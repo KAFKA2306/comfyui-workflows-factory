@@ -907,6 +907,132 @@
         "ComfyUIへの投入は対象の画像入力ノードとAPI形式Workflowの設定が別途必要。自動接続・品質評価・3D化の成功は未検証とする",
         "組み込みツールが使えなくてもAPIキーを要求するCLI方式へ無断で切り替えない"
       ]
+    },
+    {
+      "id": "pixal3d-fourview-blender-preview",
+      "title": "Pixal3Dの4方向画像からGLBを生成しBlenderで確認",
+      "purpose": "公式Pixal3Dテンプレートで4方向のキャラクター画像をGLB化し、Blenderのheadlessレンダリングで形状・テクスチャを確認する制作工程。Blender実行用スクリプトは未登録で、端から端までの自動化は未検証。",
+      "tags": [
+        "Pixal3D",
+        "4視点",
+        "GLB",
+        "Blender"
+      ],
+      "mission_ids": [
+        "avatars",
+        "3d-models",
+        "booth",
+        "games"
+      ],
+      "inputs": [
+        "front.png",
+        "left.png",
+        "back.png",
+        "right.png"
+      ],
+      "steps": [
+        {
+          "tool": "ComfyUI Pixal3D（公式4方向テンプレート）",
+          "source_url": "https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_pixal3d_multi_views.json",
+          "requires": [
+            "front.png",
+            "left.png",
+            "back.png",
+            "right.png"
+          ],
+          "provides": [
+            "pixal-model.glb"
+          ],
+          "action": "ComfyUI公式テンプレートへ正面・左・背面・右画像を割り当ててGLBを生成する。テンプレートJSONはローカルpixal3d_template.jsonと同一とは限らず、API形式への変換が必要。"
+        },
+        {
+          "tool": "Blender（headless）",
+          "source_url": "https://projects.blender.org/blender/blender",
+          "requires": [
+            "pixal-model.glb"
+          ],
+          "provides": [
+            "pixal-preview.png"
+          ],
+          "action": "GLBをBlenderで読み込み、別途用意するレンダリングスクリプトを使って形状確認用PNGを出力する。実行スクリプトはこのリポジトリに未登録。"
+        }
+      ],
+      "outputs": [
+        "pixal-model.glb",
+        "pixal-preview.png"
+      ],
+      "checks": [
+        "4方向の視点順序とキャラクターの外観が一致していることを確認する",
+        "GLBのメッシュ・UV・PBRテクスチャとBlenderでの表示を確認する",
+        "ComfyUIノード・モデルの対応版、モデルの利用条件、GPUメモリ、実機成功は未確認として扱う",
+        "独自ラッパpixal_run.pyは未収録。レンダリングの自動実行は未実装として扱う"
+      ]
+    },
+    {
+      "id": "triposg-skintoken-mmd-avatar",
+      "title": "TripoSGからSkinTokenでリギングしMMD用PMX素材へ変換",
+      "purpose": "1画像からTripoSGのTRIMESHを生成しSkinTokenでリグ付きGLBへ変換し、BlenderのMMD ToolsでPMX化とVMD適用を試す工程。MMD互換ボーンと自動変換スクリプトは未検証でありVRChat完成品の生成を保証しない。",
+      "tags": [
+        "TripoSG",
+        "SkinToken",
+        "リギング",
+        "MMD"
+      ],
+      "mission_ids": [
+        "avatars",
+        "3d-models",
+        "games",
+        "booth"
+      ],
+      "inputs": [
+        "character.png"
+      ],
+      "steps": [
+        {
+          "tool": "ComfyUI-TripoSG",
+          "source_url": "https://github.com/tungthedev/ComfyUI-TripoSG",
+          "requires": [
+            "character.png"
+          ],
+          "provides": [
+            "generated-trimesh"
+          ],
+          "action": "TripoSG Prepare Image→Model Loader→Inferenceで画像からTRIMESHを生成する。generated-trimeshはComfyUI内のTRIMESHデータであり、ディスク上のファイルではない。"
+        },
+        {
+          "tool": "ComfyUI-SkinToken",
+          "source_url": "https://github.com/Rizzlord/ComfyUI-SkinToken",
+          "requires": [
+            "generated-trimesh"
+          ],
+          "provides": [
+            "rigged.glb"
+          ],
+          "action": "SkinToken RigへTRIMESHを渡して骨格と頂点ウェイトを予測し、リグ付きGLBを書き出す。自動生成骨格がMMD・VRChatへそのまま適合するとは限らない。"
+        },
+        {
+          "tool": "Blender MMD Tools",
+          "source_url": "https://github.com/MMD-Blender/blender_mmd_tools",
+          "requires": [
+            "rigged.glb"
+          ],
+          "provides": [
+            "avatar.pmx"
+          ],
+          "action": "GLBをBlenderへ読み込み、MMD対応のボーン・材質・モーフ等へ必要な調整をしてPMXとしてエクスポートする。VMD適用にはMMD骨格への整合・リターゲット確認が必要。"
+        }
+      ],
+      "outputs": [
+        "rigged.glb",
+        "avatar.pmx"
+      ],
+      "checks": [
+        "TripoSGノードが出力するTRIMESH型をSkinToken Rigに接続し、対応バージョンを確認する",
+        "SkinTokenのリグ、ウェイト、Bone名、形状崩れを検査する。Mixamo/UE5テンプレートはMMD互換を保証しない",
+        "Blender 4.2以降では現行MMD-Blender保守版を優先する。旧sugiany版を現行保守版とみなさない",
+        "PMXでのVMD再生とMMD骨格の整合を実機で確認する。GLBからPMXへの無調整・全自動変換は保証しない",
+        "独自ラッパkafka_mmd.pyとkafka_avatar.pyは本リポジトリに未収録。入力の権利とモデル重み・生成物の利用条件を別途確認する"
+      ]
     }
   ]
 }
