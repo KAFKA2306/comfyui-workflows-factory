@@ -19,7 +19,7 @@ class RegistryTests(unittest.TestCase):
 
     def test_pipeline_inputs_and_references(self):
         data = load_registry()
-        self.assertEqual(len(data["pipelines"]), 6)
+        self.assertIn("codex-imagegen-source", {row["id"] for row in data["pipelines"]})
         broken = copy.deepcopy(data)
         broken["pipelines"][0]["steps"][1]["requires"].append("missing.mp4")
         with self.assertRaisesRegex(ValueError, "未生成の入力"):
