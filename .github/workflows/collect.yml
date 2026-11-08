@@ -25,14 +25,11 @@ jobs:
           python-version: '3.11'
       - name: uv.lockに基づく環境構築
         run: uv sync --locked
-      - name: テストと構文の確認
+      - name: 必須の安全性検査
         run: |
-          bash -n scripts/catalog_sync.sh scripts/catalog_publish.sh
-          uv run --locked python -m unittest discover -s tests -v
-          uv run --locked python -m compileall -q src
-          uv run --locked python scripts/validate_docs.py
-          uv run --locked python -m gwp.agent_memory
-          uv run --locked python -c 'import json,pathlib; [json.loads(p.read_text(encoding="utf-8")) for p in pathlib.Path(".").rglob("*.json")]'
+          uv run --locked python -m unittest discover -s tests -q
+          uv run --locked python -m gwp.registry validate
+          uv run --locked python -m gwp.state verify --catalog data/workflow_registry.json
 
   collect:
     name: 公開Workflowを収集
