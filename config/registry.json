@@ -351,6 +351,28 @@
       "hardware_validation": "not-tested"
     },
     {
+      "id": "pixal3d-multiview-character-to-glb",
+      "repository": "Comfy-Org/workflow_templates",
+      "path": "templates/3d_pixal3d_multi_views.json",
+      "source_key": "github:comfy-org/workflow_templates:templates/3d_pixal3d_multi_views.json",
+      "purpose": "キャラクターの正面・左側・背面・右側の4視点を入力し、UV展開・PBRテクスチャ付きの3Dモデル（GLB）を生成する公式Pixal3Dテンプレート候補。3視点しかない素材は4視点へ調整が必要。",
+      "tags": [
+        "3D",
+        "キャラクター",
+        "4視点",
+        "UV",
+        "PBR"
+      ],
+      "mission_ids": [
+        "avatars",
+        "3d-models",
+        "booth",
+        "games"
+      ],
+      "license": "未確認",
+      "hardware_validation": "not-tested"
+    },
+    {
       "id": "qwen-image-360",
       "repository": "Comfy-Org/workflow_templates",
       "path": "templates/template_qwen_Image_2512_360_lora.json",
