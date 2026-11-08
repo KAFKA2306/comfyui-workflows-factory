@@ -27,7 +27,7 @@ OpenAIの [Building an AI-Native Engineering Team](https://learn.chatgpt.com/gui
 | Test | 変更の要件から失敗例・境界例を導き、可能で意味があるときは修正前の失敗を再現する。既存のuvテストを実行し、台帳とSHA-256を守る。単に実装を追認するテストや重複CIは増やさない。 |
 | Review | 台帳破損、過去候補の消失、誤判定、権限逸脱、重大な回帰を優先点検する。雑多な低重要度の指摘やレビュー数を成果指標にしない。 |
 | Document | 実装・評価条件や利用手順が変わった場合のみ、既存のREADME・設計書・正準メモリを同時更新する。毎回の長文作業日誌は作らない。 |
-| Deploy & Maintain | mainへの反映結果を正確なcommit SHAで再取得し、Actionsの結果・ログ・変更履歴を関連付けて確認する。CI成功、選定器の検証、ComfyUI実機制作の成功を混同しない。 |
+| Deploy & Maintain | mainへの反映結果を正確なcommit SHAで再取得し、Actionsの結果・ログ・変更履歴を関連付けて確認する。収集Actionsの成功、選定器の検証、ComfyUI実機制作の成功を混同しない。 |
 
 **担当範囲**：エージェントは上記の調査、可逆的な実装、検証、既存正本の更新を実行する。重要な判断の根拠と採否は読める形で残す。破壊的な外部変更、秘密情報の公開、権限を超える操作は行わない。公式ガイドの人間レビューの前提を、無条件の自動承認や実機未検証の「成功」へ読み替えない。
 
@@ -81,7 +81,7 @@ OpenAIの [Building an AI-Native Engineering Team](https://learn.chatgpt.com/gui
 
 ## 比較可能な評価
 
-各変更の前に、成功条件と回帰条件を定義する。最低限、変更した機能のテスト結果とCI、mainの正確なSHAを残す。候補の評価ロジックなら、同一の台帳スナップショット・同一の時刻で、順位・重複集約数・8領域の候補を変更前後で比較する。人気・更新の数値がGitHubリポジトリ単位であることを明記する。作品を生成していない場合は「実機制作済み」としない。
+各変更の前に、成功条件と回帰条件を定義する。影響範囲に必要なテスト結果とmainの正確なSHAを残す。push/PRでCIを起動せず、Actionsは6時間ごとの台帳収集と手動実行だけに使う。候補の評価ロジックなら、同一の台帳スナップショット・同一の時刻で、順位・重複集約数・8領域の候補を変更前後で比較する。人気・更新の数値がGitHubリポジトリ単位であることを明記する。作品を生成していない場合は「実機制作済み」としない。
 
 一回の成功を一般化せず、別の領域・別のケースでも退行がないことを確認する。悪化が実測された変更は安全な元の状態に戻すか、原因を特定する。効果不明のルールや追加エージェントは採用しない。
 
@@ -92,13 +92,14 @@ OpenAIの [Building an AI-Native Engineering Team](https://learn.chatgpt.com/gui
 - 変更がない回でも監視結果と見送り理由を報告する。外部サービス側の拒否は、確認できた操作とエラーを正確に残す。
 - 毎時の定期実行は常駐プロセスではない。実行間の24時間監視や自動通知を、別の仕組みなしに保証しない。
 
-## 基本検査
+## 変更時の検査
 
 ```sh
 uv sync --locked
+uv run --locked python -m unittest discover -s tests -q
 uv run --locked python -m gwp.registry validate
-uv run --locked python scripts/validate_docs.py
-uv run --locked python -m unittest discover -s tests -v
 ```
+
+変更に必要な検査のみ実行し、通常のpushやPRでGitHub Actionsを起動しない。
 
 収集台帳を変更した場合は [台帳の保全・復旧](durability.md) に従ってSHA-256と履歴を確認し、更新後のmainを再取得する。

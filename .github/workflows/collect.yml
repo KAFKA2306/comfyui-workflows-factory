@@ -1,11 +1,7 @@
-name: 出典収集と動作検証
+name: 公開Workflowの定期収集
 
+# 通常のコード変更ではActionsを起動しない。安全性テストは変更時にローカルで実施。
 on:
-  push:
-    paths-ignore:
-      - 'data/workflow_registry.json'
-      - 'data/workflow_registry.json.sha256'
-  pull_request:
   schedule:
     - cron: '17 */6 * * *'
   workflow_dispatch:
@@ -14,27 +10,8 @@ permissions:
   contents: read
 
 jobs:
-  test:
-    name: 動作検証
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: uvとPythonをセットアップ
-        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
-        with:
-          python-version: '3.11'
-      - name: uv.lockに基づく環境構築
-        run: uv sync --locked
-      - name: 必須の安全性検査
-        run: |
-          uv run --locked python -m unittest discover -s tests -q
-          uv run --locked python -m gwp.registry validate
-          uv run --locked python -m gwp.state verify --catalog data/workflow_registry.json
-
   collect:
     name: 公開Workflowを収集
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
-    needs: test
     runs-on: ubuntu-latest
     timeout-minutes: 55
     permissions:
