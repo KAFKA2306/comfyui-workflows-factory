@@ -861,6 +861,52 @@
         "編集プランで誤認識と削除区間を確認する",
         "字幕の見切れと音声を確認する"
       ]
+    },
+    {
+      "id": "codex-imagegen-source",
+      "title": "Codex画像生成をComfyUIの入力素材に利用",
+      "purpose": "Codexの組み込みimagegenで画像を生成してプロジェクトへ保存し、別途ComfyUI Workflowの入力として使う。組み込みツール提供と後段の自動接続は実機未検証。",
+      "tags": [
+        "Codex",
+        "imagegen",
+        "画像生成",
+        "ComfyUI入力"
+      ],
+      "mission_ids": [
+        "vrchat-world",
+        "avatars",
+        "booth",
+        "youtube",
+        "podcast",
+        "movies",
+        "3d-models",
+        "games"
+      ],
+      "inputs": [
+        "prompt.txt"
+      ],
+      "steps": [
+        {
+          "tool": "Codex imagegen（組み込み）",
+          "source_url": "https://github.com/openai/codex/blob/main/codex-rs/skills/src/assets/samples/imagegen/SKILL.md",
+          "requires": [
+            "prompt.txt"
+          ],
+          "provides": [
+            "source.png"
+          ],
+          "action": "組み込み画像生成ツールを利用できるCodexセッションでprompt.txtから画像を作成し、選定したPNGをプロジェクト内のsource.pngに保存する。pipeline登録だけでは生成は実行されない。"
+        }
+      ],
+      "outputs": [
+        "source.png"
+      ],
+      "checks": [
+        "現在のCodex実行セッションに組み込みimage_genツールがあるか確認する。imagegenスキルの存在だけで利用可能と判定しない",
+        "生成画像をプロジェクトに保存し、ファイル実在・形式・SHA-256・プロンプトを確認する",
+        "ComfyUIへの投入は対象の画像入力ノードとAPI形式Workflowの設定が別途必要。自動接続・品質評価・3D化の成功は未検証とする",
+        "組み込みツールが使えなくてもAPIキーを要求するCLI方式へ無断で切り替えない"
+      ]
     }
   ]
 }
