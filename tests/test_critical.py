@@ -242,6 +242,14 @@ class CriticalSafetyTests(unittest.TestCase):
         }
         with self.assertRaisesRegex(ValueError, "主制作領域"):
             validate_registry(broken)
+        # 制作目的の未設定を公開先の情報だけで見逃さない。
+        broken = copy.deepcopy(registry)
+        broken["projects"]["missing"] = {
+            "title": "主目的なし", "tags": ["作品"], "mission_ids": [],
+            "delivery_targets": ["youtube"],
+        }
+        with self.assertRaisesRegex(ValueError, "主制作領域"):
+            validate_registry(broken)
 
 
 if __name__ == "__main__":
