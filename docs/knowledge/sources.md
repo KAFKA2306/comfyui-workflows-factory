@@ -31,7 +31,7 @@ Hugging FaceとCivitaiのモデル情報は収集台帳の `feeds` に記録す�
 
 [Chatterbox Dialog TTSの公式テンプレート](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/audio-chatterbox_tts_dialog.json)では、2つの`LoadAudio`で話者の参照音声を読み込み、片方を`AudioCrop`で切り出してから`FL_ChatterboxDialogTTS`へ入力する。会話文をノード内で指定し、生成した`dialog_audio`を`SaveAudioMP3`へ渡す。参照音声は`AUDIO`、生成結果も`AUDIO`であり、保存先はMP3形式である。
 
-主な再利用先は音声・音楽。映像・アニメーション、ゲーム・インタラクティブ作品、VRChatワールド・空間では台詞音声の制作工程として利用を検討できる。アバター・衣装、BOOTH向け素材、3Dモデル・造形への直接の適用は、この原典だけでは確認できない。類似する単一話者の音声合成と異なり、複数話者の参照音声と会話文を1つのノードに入力する構造を持つ。
+主な再利用先は音声・音楽。映像・アニメーション、ゲーム・インタラクティブ作品、VRChatワールド・空間では台詞音声の制作工程として利用を検討できる。アバター・衣装と3Dモデル・造形への直接の適用は、この原典だけでは確認できない。類似する単一話者の音声合成と異なり、複数話者の参照音声と会話文を1つのノードに入力する構造を持つ。
 
 `FL_ChatterboxDialogTTS`の配布元、必要なカスタムノードの版、モデルの取得先、VRAM、各モデルと参照音声のライセンス、実機動作、商用利用条件は、このJSONだけでは確定できない。利用前にそれぞれの一次資料と実機で確認する。これらの条件はWorkflowの自動順位付けに加点・減点しない。
 
@@ -47,13 +47,13 @@ Hugging FaceとCivitaiのモデル情報は収集台帳の `feeds` に記録す�
 
 [Comfy-OrgのWan2.1 First/Last Frame公式テンプレート](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/wan2.1_flf2v_720_f16.json)（原典Blob SHA `97db669a9e12309f4ecfb29f4499ee819d126459`）は、2つの`LoadImage`から開始・終了画像を取り込み、`CLIPVisionLoader`・`CLIPVisionEncode`、`WanFirstLastFrameToVideo`、`KSampler`、`VAEDecode`、`CreateVideo`、`SaveVideo`を組み合わせる。`UNETLoader`、`CLIPLoader`、`VAELoader`、`ModelSamplingSD3`も含む。入力は開始・終了画像とテキスト条件、出力は生成動画である。静止画像からの通常の動画生成と異なり、終端画像も条件として渡す。
 
-映像・アニメーション、ゲーム・インタラクティブ作品、VRChatワールド・空間の映像素材に再利用を検討できる。アバター・衣装、BOOTH向け素材、音声・音楽、3Dモデル・造形への直接適用は原典だけでは確認できない。必要なモデルファイルとその版、カスタムノードの要否、VRAM、ライセンス、商用利用条件、実機動作は未確認であり、採点対象にしない。
+映像・アニメーション、ゲーム・インタラクティブ作品、VRChatワールド・空間の映像素材に再利用を検討できる。アバター・衣装、音声・音楽、3Dモデル・造形への直接適用は原典だけでは確認できない。必要なモデルファイルとその版、カスタムノードの要否、VRAM、ライセンス、商用利用条件、実機動作は未確認であり、採点対象にしない。
 
 ## 360度パノラマからGLBメッシュを作る構成
 
 [Comfy-Org公式のMoGeパノラマWorkflow](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_moge_panorama_to_mesh.json)は、`LoadImage`から正距円筒図法の360度画像を入力し、サブグラフ内の`MoGePanoramaInference`で12方向の画像を推論・統合し、`MoGePointMapToMesh`を経て`SaveGLB`でメッシュを保存する。原典は通常2:1の全天球画像を想定し、出力は内側から見る球状のGLBである。単一の透視画像を使う[別テンプレート](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_moge_perspective_to_mesh.json)と異なり、複数方向の深度をCPUで統合する。
 
-主な再利用先はVRChatワールド・空間、3Dモデル・造形、ゲーム・インタラクティブ作品。BOOTH公開向けの3D背景素材にも応用を検討できる。映像・アニメーションでは3D背景としての利用を検討できるが、アバター・衣装と音声・音楽への直接適用は原典から確認できない。
+主な再利用先はVRChatワールド・空間、3Dモデル・造形、ゲーム・インタラクティブ作品。3D背景素材のBOOTH公開は制作後に別途判断する。映像・アニメーションでは3D背景としての利用を検討できるが、アバター・衣装と音声・音楽への直接適用は原典から確認できない。
 
 モデルの参照先は[Comfy-Org/MoGe](https://huggingface.co/Comfy-Org/MoGe)で、テンプレートには`moge_1_vitl_fp16.safetensors`と`moge_2_vitl_normal_fp16.safetensors`が記載されている。必要VRAM、実機動作、ComfyUI対応版、モデルと出力物のライセンス、商用利用条件は未確認。パノラマの分割解像度とバッチ数はGPU負荷、統合解像度はCPU負荷に関係する。これらの条件は人気30・更新30・領域適合40の採点に含めない。人気と更新日がGitHubリポジトリ単位の場合、個別Workflowの値ではない。
 
@@ -63,13 +63,13 @@ Hugging FaceとCivitaiのモデル情報は収集台帳の `feeds` に記録す�
 
 サブグラフ内には`UNETLoader`、`CLIPLoader`、`VAELoader`、`ModelSamplingAuraFlow`などがある。原典が指定するモデルはQwen-Image-2512 FP8、Qwen 2.5 VLのテキストエンコーダ、Qwen Image VAE、360度用LoRA、任意のLightning LoRA。原典に記載されたファイル容量は順に19.03GB、8.74GB、242MB、720.1MB、1.58GBであり、必要VRAMを表す数値ではない。原典のノード属性はComfyUI標準ノードを示すが、実際の対応バージョンと追加依存の有無は利用環境で確認する。
 
-制作目的別の再利用先は、VRChatワールド・空間とゲーム・インタラクティブ作品の環境背景、BOOTH公開向けの背景素材、映像・アニメーションの背景、3Dモデル・造形制作時の背景参照。アバター・衣装と音声・音楽への直接適用は未確認。モデル・LoRAごとのライセンス、商用利用条件、必要VRAM、左右境界の品質、実機動作は未確認であり、採点しない。人気と更新日はGitHubリポジトリ単位の代理指標であり、個別Workflowの人気・更新日ではない。自動順位付けは人気30・更新30・制作領域適合40に限定する。
+制作目的別の再利用先は、VRChatワールド・空間とゲーム・インタラクティブ作品の環境背景、映像・アニメーションの背景、3Dモデル・造形制作時の背景参照。BOOTHは生成した背景素材の公開先候補であり、制作目的とは分ける。アバター・衣装と音声・音楽への直接適用は未確認。モデル・LoRAごとのライセンス、商用利用条件、必要VRAM、左右境界の品質、実機動作は未確認であり、採点しない。人気と更新日はGitHubリポジトリ単位の代理指標であり、個別Workflowの人気・更新日ではない。自動順位付けは人気30・更新30・制作領域適合40に限定する。
 
 ## ACE-Step 1.5のテキスト条件から音声を作る構成
 
 [Comfy-Org公式ACE-Step 1.5テンプレート](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/audio_ace_step_1_5_split_4b.json)（原典Blob SHA `fe1c94c6de37b8b900a5c83b0decff4d3d490e02`）では、`DualCLIPLoader`と`TextEncodeAceStepAudio1.5`でテキスト条件を作り、`EmptyAceStep1.5LatentAudio`、`KSampler`、`VAEDecodeAudio`、`SaveAudioMP3`へ接続する。モデルは`UNETLoader`と`VAELoader`から供給する。原典には`acestep_v1.5_turbo.safetensors`、`ace_1.5_vae.safetensors`、`qwen_0.6b_ace15.safetensors`、`qwen_4b_ace15.safetensors`への参照がある。入力はテキスト条件、出力はMP3音声である。
 
-主な再利用先は音声・音楽。映像・アニメーション、ゲーム・インタラクティブ作品、VRChatワールド・空間では音楽・音声素材への利用を検討できる。アバター・衣装、BOOTH向け素材、3Dモデル・造形への直接適用は未確認。参照音声を入力する[Chatterbox Dialog TTS](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/audio-chatterbox_tts_dialog.json)とは異なり、この構成ではテキスト条件と潜在音声から生成する。
+主な再利用先は音声・音楽。映像・アニメーション、ゲーム・インタラクティブ作品、VRChatワールド・空間では音楽・音声素材への利用を検討できる。アバター・衣装と3Dモデル・造形への直接適用は未確認。参照音声を入力する[Chatterbox Dialog TTS](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/audio-chatterbox_tts_dialog.json)とは異なり、この構成ではテキスト条件と潜在音声から生成する。
 
 ノードとモデルの対応版、必要VRAM、各モデルのライセンス、商用利用条件、実機動作、音声品質は未確認である。これらは人気30・更新30・制作領域適合40の順位付けには含めない。GitHubスター数と最終push日時を利用する場合、それらはリポジトリ単位の指標であり、このWorkflow単体の人気や更新日ではない。
 
@@ -77,7 +77,7 @@ Hugging FaceとCivitaiのモデル情報は収集台帳の `feeds` に記録す�
 
 [Comfy-Org公式MoGe Perspective-to-Mesh](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_moge_perspective_to_mesh.json)（原典Blob SHA `c4a412f9844b033f93782112a404188764afe4a9`）は、`LoadImage`から透視画像を入力し、MoGeの推論・メッシュ化を含むサブグラフを通して`SaveGLB`へ出力する。サブグラフはOpenGLとDirectXの法線プレビューも出力する。幅2048ピクセルを超える入力は、設定により推論前に長辺2048へ縮小できる。メッシュ間引きと深度の不連続をまたぐ面の除去も調整できる。
 
-[360度パノラマからGLBを作る構成](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_moge_panorama_to_mesh.json)とは異なり、単一の透視画像から見えている形状を推定する。主な再利用先は3Dモデル・造形、ゲーム・インタラクティブ作品、VRChatワールド・空間、BOOTH公開向けの3D素材。映像・アニメーションでは背景素材への応用を検討できる。アバター・衣装と音声・音楽への直接適用は未確認。
+[360度パノラマからGLBを作る構成](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_moge_panorama_to_mesh.json)とは異なり、単一の透視画像から見えている形状を推定する。主な再利用先は3Dモデル・造形、ゲーム・インタラクティブ作品、VRChatワールド・空間。BOOTHは生成した3D素材の公開先候補。映像・アニメーションでは背景素材への応用を検討できる。アバター・衣装と音声・音楽への直接適用は未確認。
 
 モデル参照先は[Comfy-Org/MoGe](https://huggingface.co/Comfy-Org/MoGe)。原典にはMoGe-1の`moge_1_vitl_fp16.safetensors`とMoGe-2の`moge_2_vitl_normal_fp16.safetensors`が記載され、後者は法線推定を扱う。必要VRAM、対応するComfyUI・ノードの版、モデル・出力物のライセンス、商用利用条件、実機動作は未確認であり、採点に含めない。人気30・更新30・制作領域適合40のみを採点し、GitHubスター数とpush日時はリポジトリ単位の代理指標として扱う。
 
@@ -87,7 +87,7 @@ Hugging FaceとCivitaiのモデル情報は収集台帳の `feeds` に記録す�
 
 原典には[LightricksのLTX-2.3モデル](https://huggingface.co/Lightricks/LTX-2.3/)、22BのFP8チェックポイント、蒸留LoRA、Gemma 3系LoRA、空間アップスケーラーへの参照がある。これらはモデル依存を示すが、必要VRAMの実測値ではない。対応するComfyUI本体・カスタムノードの版、各モデルのライセンス、商用利用条件、生成品質、実機動作は未確認であり、利用前に原典と実行環境で確認する。
 
-制作目的別には映像・アニメーションの映像制作が直接の再利用候補である。ゲーム・インタラクティブ作品、VRChatワールド・空間、BOOTH向け素材では動画素材としての利用を検討できる。音声・音楽は生成音声の独立利用、アバター・衣装と3Dモデル・造形は直接の適用が原典だけでは確認できない。類似する開始・終了画像指定の[Wan2.1 Workflow](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/wan2.1_flf2v_720_f16.json)とは入力条件と使用モデルが異なる。人気30・更新30・制作領域適合40のみを自動採点し、VRAM・モデル・ライセンス・実行環境は採点しない。GitHubのスター数とpush日時はリポジトリ単位であり、個別Workflowの指標ではない。
+制作目的別には映像・アニメーションの映像制作が直接の再利用候補である。ゲーム・インタラクティブ作品とVRChatワールド・空間では動画素材としての利用を検討できる。BOOTHでの配布は動画素材の公開先として別途判断する。音声・音楽は生成音声の独立利用、アバター・衣装と3Dモデル・造形は直接の適用が原典だけでは確認できない。類似する開始・終了画像指定の[Wan2.1 Workflow](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/wan2.1_flf2v_720_f16.json)とは入力条件と使用モデルが異なる。人気30・更新30・制作領域適合40のみを自動採点し、VRAM・モデル・ライセンス・実行環境は採点しない。GitHubのスター数とpush日時はリポジトリ単位であり、個別Workflowの指標ではない。
 
 
 ## Idolによる単一画像からGaussian Splatとメッシュを作る構成
@@ -96,19 +96,19 @@ Hugging FaceとCivitaiのモデル情報は収集台帳の `feeds` に記録す�
 
 モデルの一次参照先は[Comfy-Org/Idol](https://huggingface.co/Comfy-Org/Idol)と[Comfy-Org/BiRefNet](https://huggingface.co/Comfy-Org/BiRefNet)。原典には`idol_fp16.safetensors`、`idol_decoder_fp16.safetensors`、`dino_v3_vit_h_bf16.safetensors`、`flux2-vae.safetensors`、`birefnet.safetensors`が記載され、IdolはTripoSplat系ノードを使う。モデルファイル合計3.52GBという記載は必要VRAMではない。サブグラフの内部ノード版、カスタムノードの追加要否、必要VRAM、各モデルと出力物のライセンス、商用利用条件、実機動作は未確認。単一視点から推定するため背面・細部の形状は入力画像だけでは保証されない。
 
-制作目的別には3Dモデル・造形、ゲーム・インタラクティブ作品、VRChatワールド・空間、BOOTH公開向けの3D素材が主な再利用候補。映像・アニメーションには回転プレビューを利用できる。アバター・衣装はメッシュの編集・リギング適性が未確認で、音声・音楽への直接適用は確認できない。採点は人気30・更新30・領域適合40のみとし、モデル・VRAM・ライセンス・実行条件は別途確認する。GitHubスター数と更新日はリポジトリ単位の代理指標であり、この個別Workflowの評価値ではない。
+制作目的別には3Dモデル・造形、ゲーム・インタラクティブ作品、VRChatワールド・空間が主な再利用候補。BOOTHは生成した3D素材の公開先として別途検討する。映像・アニメーションには回転プレビューを利用できる。アバター・衣装はメッシュの編集・リギング適性が未確認で、音声・音楽への直接適用は確認できない。採点は人気30・更新30・領域適合40のみとし、モデル・VRAM・ライセンス・実行条件は別途確認する。GitHubスター数と更新日はリポジトリ単位の代理指標であり、この個別Workflowの評価値ではない。
 
 ## 単一画像からHunyuan3DのGLBを作る構成
 
 [Comfy-Org公式Hunyuan3Dテンプレート](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_hunyuan3d_image_to_model.json)では、`LoadImage`の`IMAGE`を3D生成サブグラフへ渡し、出力を`SaveGLB`の`mesh`入力へ接続する。原典は`hunyuan3d-dit-v2_fp16.safetensors`を参照する。入力は単一画像、出力はGLB形式の3Dデータである。パノラマから周囲のメッシュを作るMoGeとは異なり、画像内の対象物を3D化する構成である。
 
-主な再利用先は3Dモデル・造形、ゲーム・インタラクティブ作品、VRChatワールド・空間、BOOTH向け素材。アバター・衣装はメッシュの調整とリギングが別途必要であり、映像・アニメーションは3D素材として間接利用を検討できる。音声・音楽への直接適用は確認できない。必要VRAM、サブグラフ内の詳細な依存関係、モデルとノードの配布条件、ライセンス、商用利用可否、実機動作は未確認である。これらは採点せず、人気30・更新30・制作領域適合40のみで順位付けする。GitHub単位の人気と更新日は個別Workflowの実績ではない。
+主な再利用先は3Dモデル・造形、ゲーム・インタラクティブ作品、VRChatワールド・空間。BOOTHは公開先の候補であり、制作目的に含めない。アバター・衣装はメッシュの調整とリギングが別途必要であり、映像・アニメーションは3D素材として間接利用を検討できる。音声・音楽への直接適用は確認できない。必要VRAM、サブグラフ内の詳細な依存関係、モデルとノードの配布条件、ライセンス、商用利用可否、実機動作は未確認である。これらは採点せず、人気30・更新30・制作領域適合40のみで順位付けする。GitHub単位の人気と更新日は個別Workflowの実績ではない。
 
 ## 4方向画像からHunyuan3D TurboでGLBを生成する構成
 
 [Comfy-Org公式Hunyuan3D MultiView Turboテンプレート](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_hunyuan3d_multiview_to_model_turbo.json)（確認した原典Blob SHA `0f4b882dafc2241591be41761328bbfbd77fd1aa`）は、前・後・左・右の4画像をそれぞれ`LoadImage`で読み込み、`CLIPVisionEncode`から`Hunyuan3Dv2ConditioningMultiView`に接続する。`ImageOnlyCheckpointLoader`で`hunyuan3d-dit-v2-mv-turbo_fp16.safetensors`を参照し、`EmptyLatentHunyuan3Dv2`、`KSampler`、`VAEDecodeHunyuan3D`、`VoxelToMesh`、`SaveGLB`を経てGLB形式で保存する。原典のモデルリンクは[Comfy-Org/hunyuan3D_2.0_repackaged](https://huggingface.co/Comfy-Org/hunyuan3D_2.0_repackaged)で、チェックポイントの配布サイズは4.59GBと記載されている。これは必要VRAMの実測値ではない。
 
-単一画像の[Hunyuan3Dテンプレート](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_hunyuan3d_image_to_model.json)と異なり、4方向の入力画像とMultiView専用の条件付け・チェックポイントを使う。3Dモデル・造形、ゲーム・インタラクティブ作品、VRChatワールド・空間、BOOTH公開向けの3D素材が主な再利用候補である。アバター・衣装はメッシュ編集とリギングが必要か未確認。映像・アニメーションは3D素材として間接利用を検討できる。音声・音楽への直接適用は確認できない。必要VRAM、ライセンスと商用利用条件、カスタムノードの追加要否、実機での生成結果は未確認である。人気30・更新30・制作領域適合40のみで採点し、モデル・VRAM・ライセンス・実行条件は採点しない。GitHubスター数と更新日時はリポジトリ単位の代理指標であり、このWorkflow固有の実績ではない。
+単一画像の[Hunyuan3Dテンプレート](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_hunyuan3d_image_to_model.json)と異なり、4方向の入力画像とMultiView専用の条件付け・チェックポイントを使う。3Dモデル・造形、ゲーム・インタラクティブ作品、VRChatワールド・空間が主な再利用候補である。生成した3D素材をBOOTHに公開する場合は権利と出力品質を別途検証する。アバター・衣装はメッシュ編集とリギングが必要か未確認。映像・アニメーションは3D素材として間接利用を検討できる。音声・音楽への直接適用は確認できない。必要VRAM、ライセンスと商用利用条件、カスタムノードの追加要否、実機での生成結果は未確認である。人気30・更新30・制作領域適合40のみで採点し、モデル・VRAM・ライセンス・実行条件は採点しない。GitHubスター数と更新日時はリポジトリ単位の代理指標であり、このWorkflow固有の実績ではない。
 
 ## 単一画像からTripoSplatでGaussian Splatを作る構成
 
@@ -116,7 +116,7 @@ Hugging FaceとCivitaiのモデル情報は収集台帳の `feeds` に記録す�
 
 原典に記載されたモデルは`triposplat_fp16.safetensors`、`dino_v3_vit_h.safetensors`、`triposplat_vae_decoder_fp16.safetensors`、`flux2-vae.safetensors`、背景除去用`birefnet.safetensors`。配布元は[VAST-AI/TripoSplat](https://huggingface.co/VAST-AI/TripoSplat)と[Comfy-Org/BiRefNet](https://huggingface.co/Comfy-Org/BiRefNet)。必要VRAM、モデルとカスタムノードのライセンス、商用利用条件、実機動作は未確認であり、配布ファイル容量からVRAMを推定しない。
 
-制作目的別には3Dモデル・造形、ゲーム・インタラクティブ作品、VRChatワールド・空間、BOOTH向け素材が直接の再利用候補。映像・アニメーションは回転プレビュー動画を素材として利用できる。アバター・衣装はリギングやメッシュ編集への適性が未確認で、音声・音楽への直接利用は確認できない。順位付けは人気30・更新30・制作領域適合40のみとし、VRAM・ライセンス・モデル・実行条件は採点しない。GitHubの人気と更新日はリポジトリ単位であり、この個別Workflowの実績ではない。
+制作目的別には3Dモデル・造形、ゲーム・インタラクティブ作品、VRChatワールド・空間が直接の再利用候補。BOOTHは生成した3D素材の公開先として別途検討する。映像・アニメーションは回転プレビュー動画を素材として利用できる。アバター・衣装はリギングやメッシュ編集への適性が未確認で、音声・音楽への直接利用は確認できない。順位付けは人気30・更新30・制作領域適合40のみとし、VRAM・ライセンス・モデル・実行条件は採点しない。GitHubの人気と更新日はリポジトリ単位であり、この個別Workflowの実績ではない。
 
 ## 動画から人物の3D姿勢とメッシュを推定する構成
 
@@ -124,7 +124,7 @@ Hugging FaceとCivitaiのモデル情報は収集台帳の `feeds` に記録す�
 
 原典の参照モデルは`sam3.1_multiplex_fp16.safetensors`、`sam_3d_body_dinov3_bf16.safetensors`、`moge_2_vitl_normal_fp16.safetensors`、`rt_detr_v4-x-hgnet_fp32.safetensors`。一次配布先は[Comfy-Org/sam3.1](https://huggingface.co/Comfy-Org/sam3.1)、[Comfy-Org/sam-3d-body](https://huggingface.co/Comfy-Org/sam-3d-body)、[Comfy-Org/MoGe](https://huggingface.co/Comfy-Org/MoGe)、[Comfy-Org/SDPose](https://huggingface.co/Comfy-Org/SDPose)。入力は動画、出力候補は人物の3Dデータと描画動画。モデル容量は必要VRAMを示さない。各ノードの対応版、追加カスタムノードの要否、必要VRAM、ライセンス、商用利用条件、実機動作、リギング可能性は未確認である。単一画像から物体を生成するHunyuan3DやTripoSplatとは異なり、時間方向の人物検出・追跡と人体推定を扱う。
 
-制作目的別にはアバター・衣装、3Dモデル・造形、ゲーム・インタラクティブ作品、VRChatワールド・空間で人物姿勢・メッシュの制作工程への再利用を検討できる。映像・アニメーションには人物の動きの解析・映像化、BOOTH向け素材には3D素材化の候補となる。音声・音楽への直接適用は確認できない。自動採点は人気30・更新30・制作領域適合40のみとし、モデル・ライセンス・VRAM・実行環境は参考情報として独立させる。GitHubの人気と更新日はリポジトリ単位であり、個別Workflowの性能を示さない。
+制作目的別にはアバター・衣装、3Dモデル・造形、ゲーム・インタラクティブ作品、VRChatワールド・空間で人物姿勢・メッシュの制作工程への再利用を検討できる。映像・アニメーションには人物の動きの解析・映像化を検討できる。生成した3D素材のBOOTH公開は別途評価する。音声・音楽への直接適用は確認できない。自動採点は人気30・更新30・制作領域適合40のみとし、モデル・ライセンス・VRAM・実行環境は参考情報として独立させる。GitHubの人気と更新日はリポジトリ単位であり、個別Workflowの性能を示さない。
 
 
 ## 音声を4種類のステムに分離する構成
@@ -133,4 +133,4 @@ Hugging FaceとCivitaiのモデル情報は収集台帳の `feeds` に記録す�
 
 原典の`MarkdownNote`は追加ノードとして[lum3on/ComfyUI_AudioTools](https://github.com/lum3on/ComfyUI_AudioTools)を示す。`htdemucs`のモデル配布・必要なダウンロード、ComfyUI本体とノードの対応版、必要VRAM・CPU/RAM、ライセンス・商用利用条件、実機動作、分離品質は未確認である。音源自体の権利は別途確認する。類似するChatterbox Dialog TTSは台本から音声を生成するが、本構成は既存音声を楽器・歌声の種類で分ける。
 
-制作目的別には音声・音楽の素材編集、映像・アニメーションの音声調整、ゲーム・インタラクティブ作品とVRChatワールド・空間の音響素材準備が再利用候補である。BOOTH向け素材は適切な権利を持つ音響素材の制作工程として検討できる。アバター・衣装と3Dモデル・造形への直接適用は確認できない。自動順位付けは人気30・更新30・制作領域適合40のみとし、モデル・VRAM・ライセンス・実行環境は採点しない。GitHubのスター数と更新日時はリポジトリ単位の代理指標であり、このWorkflow単体の人気・更新を示さない。
+制作目的別には音声・音楽の素材編集、映像・アニメーションの音声調整、ゲーム・インタラクティブ作品とVRChatワールド・空間の音響素材準備が再利用候補である。権利条件を満たした音響素材なら、BOOTHを公開先として検討できる。アバター・衣装と3Dモデル・造形への直接適用は確認できない。自動順位付けは人気30・更新30・制作領域適合40のみとし、モデル・VRAM・ライセンス・実行環境は採点しない。GitHubのスター数と更新日時はリポジトリ単位の代理指標であり、このWorkflow単体の人気・更新を示さない。
