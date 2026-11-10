@@ -145,7 +145,7 @@ def validate_registry(data):
             raise ValueError(f"制作案件が不正です: {key}")
         _tags(row, key)
         _mission_ids(row, missions, key)
-        if row.get("mission_ids") and row.get("primary_mission_id") not in row["mission_ids"]:
+        if not row.get("mission_ids") or row.get("primary_mission_id") not in row["mission_ids"]:
             raise ValueError(f"{key}: 主制作領域を1つ指定してください")
         pipeline_refs = row.get("pipeline_ids", [])
         if not isinstance(pipeline_refs, list) or any(
