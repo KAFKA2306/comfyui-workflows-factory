@@ -20,13 +20,22 @@ from gwp.state import load_catalog
 MISSION_CATEGORIES = {
     "vrchat-world": ("vrchat", "chill-world", "game-world"),
     "avatars": ("avatars",),
-    "booth": ("booth", "3d-models"),
-    "youtube": ("youtube",),
-    "podcast": ("podcast",),
-    "movies": ("movies",),
     "3d-models": ("3d-models",),
+    "illustration": ("illustration",),
+    "video": ("video",),
+    "audio": ("audio",),
     "games": ("game-world", "game-assets"),
+    "tabletop": ("tabletop",),
 }
+# 既存の収集台帳の歴史的ラベルは書き換えず、検索時だけ対応付ける。
+# BOOTHは公開先なので、画像制作へ誤って自動割当しない。
+LEGACY_MISSIONS = {"youtube": "video", "movies": "video", "podcast": "audio"}
+
+
+def normalized_missions(item):
+    return {LEGACY_MISSIONS.get(value, value) for value in item.get("mission_ids", [])}
+
+
 WORKFLOW_FORMATS = {"workflow-ui", "workflow-api", "blueprint"}
 
 
@@ -47,6 +56,8 @@ def source_rows(catalog, registry):
         key = configured["source_key"]
         if key in rows:
             rows[key]["mission_ids"] = configured["mission_ids"]
+            rows[key]["media_types"] = configured["media_types"]
+            rows[key]["delivery_targets"] = configured["delivery_targets"]
             continue
         repo, path = configured["repository"], configured["path"]
         rows[key] = {
@@ -57,6 +68,8 @@ def source_rows(catalog, registry):
             "inspection": "registry-only",
             "format": "uninspected",
             "mission_ids": configured["mission_ids"],
+            "media_types": configured["media_types"],
+            "delivery_targets": configured["delivery_targets"],
             "missing_upstream": False,
         }
     return rows.values()
@@ -86,7 +99,7 @@ def candidates(catalog, registry, mission, *, inspected_only=False, term=""):
         if inspected_only and not verified:
             continue
         category_hits = matches(item, registry, mission)
-        explicit = mission in item.get("mission_ids", [])
+        explicit = mission in normalized_missions(item)
         if not explicit and not category_hits:
             continue
         if words:

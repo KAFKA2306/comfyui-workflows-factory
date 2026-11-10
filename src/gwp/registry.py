@@ -33,6 +33,19 @@ def _nonempty_strings(items, label):
     return items
 
 
+def _classifications(row, data, label):
+    """制作媒体と公開・利用先を制作目的とは独立して検証する。"""
+    media = _nonempty_strings(row.get("media_types"), label + ".media_types")
+    if any(mid not in data["media_types"] for mid in media):
+        raise ValueError(f"{label}: 不明な制作媒体があります")
+    targets = row.get("delivery_targets", [])
+    if not isinstance(targets, list) or len(targets) != len(set(targets)) or any(
+        not isinstance(target, str) or target not in data["delivery_targets"]
+        for target in targets
+    ):
+        raise ValueError(f"{label}: 公開・利用先が不正です")
+
+
 def _validate_pipelines(data, missions, workflow_ids):
     """工程間の入出力と原典を検査する。ComfyUI JSONとは別種として扱う。"""
     rows = data.get("pipelines", [])
@@ -49,6 +62,7 @@ def _validate_pipelines(data, missions, workflow_ids):
                 raise ValueError(f"{ident}: {field}がありません")
         _tags(row, ident)
         _mission_ids(row, missions, ident)
+        _classifications(row, data, ident)
         available = set(_nonempty_strings(row.get("inputs"), ident + ".inputs"))
         steps = row.get("steps")
         if not isinstance(steps, list) or not steps:
@@ -86,6 +100,15 @@ def validate_registry(data):
             raise ValueError(f"ミッションが不正です: {key}")
         _tags(row, key)
 
+    for dimension in ("media_types", "delivery_targets"):
+        choices = data.get(dimension)
+        if not isinstance(choices, dict) or not choices or any(
+            not ID.fullmatch(key) or not isinstance(value, dict)
+            or not isinstance(value.get("title"), str) or not value["title"].strip()
+            for key, value in choices.items()
+        ):
+            raise ValueError(f"{dimension}: 分類定義が不正です")
+
     workflows = data.get("workflows")
     if not isinstance(workflows, list):
         raise ValueError("Workflow候補はリストにしてください")
@@ -106,6 +129,7 @@ def validate_registry(data):
             raise ValueError(f"{wid}: 出典IDが一致しません")
         _tags(flow, wid)
         _mission_ids(flow, missions, wid)
+        _classifications(flow, data, wid)
         for field in ("purpose", "license"):
             if not flow.get(field):
                 raise ValueError(f"{wid}: {field}がありません")
@@ -121,6 +145,8 @@ def validate_registry(data):
             raise ValueError(f"制作案件が不正です: {key}")
         _tags(row, key)
         _mission_ids(row, missions, key)
+        if row.get("mission_ids") and row.get("primary_mission_id") not in row["mission_ids"]:
+            raise ValueError(f"{key}: 主制作領域を1つ指定してください")
         pipeline_refs = row.get("pipeline_ids", [])
         if not isinstance(pipeline_refs, list) or any(
             not isinstance(pid, str) or pid not in pipeline_ids for pid in pipeline_refs

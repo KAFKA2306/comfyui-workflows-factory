@@ -107,7 +107,10 @@ def validate(plan, registry=None):
             raise ValueError(f"公開先の重複: {name}")
         seen.add(name)
         if release.get("mission") not in missions:
-            raise ValueError(f"{name}: missionsにない公開領域です")
+            raise ValueError(f"{name}: missionsにない制作目的です")
+        # 旧planとの互換性を維持しつつ、制作目的と配布先を分離する。
+        if "delivery_target" in release and release["delivery_target"] not in registry["delivery_targets"]:
+            raise ValueError(f"{name}: 未登録の公開・利用先です")
         for dep in _strings(release.get("requires"), f"{name}.requires", True):
             if dep not in by_id:
                 raise ValueError(f"{name}: 不明な制作単位: {dep}")

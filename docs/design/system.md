@@ -33,3 +33,9 @@ sources: ["https://github.com/Comfy-Org/workflow_templates"]
 - 収集時に第三者のWorkflow、Custom Node、モデルを自動で導入・実行しない。
 
 制作への接続と完成条件の扱いは[制作工程への接続](production.md)に定める。
+
+## 3軸分類と移行互換性（2026-11-10）
+
+制作目的は8つの主成果物分類。登録Workflow／複合パイプラインは目的を複数参照できるが、制作案件は `primary_mission_id` で主目的を1つ決める。モデル・処理の媒体は `media_types`（画像・動画・音声・3D）、完成作品の配布・利用先は `delivery_targets`（VRChat・BOOTH・YouTube・Web・ローカル）へ分離した。媒体と公開先は用途適合40点に混ぜない。
+
+旧正本は破壊的に移行せず、検索・採点時に旧 `youtube`／`movies`→`video`、`podcast`→`audio` のみ読み替える。`booth` は公開先であり、旧タグだけでは画像・3Dなどの主目的を決められないため読み替えない。過去の公開履歴、ジョブ、案件、出典の意味は変更しない。分類不能は削除せず未分類に残す。

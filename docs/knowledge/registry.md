@@ -51,11 +51,11 @@ CSVとJSONは `.cache/` に出力し、必要なときに台帳から再生成�
 
 `gwp.select` は台帳を変更せず、8領域の用途、公開元の人気、更新時期から表示順を決めます。検索に使う指標と作品の品質は区別してください。
 
-`--mission` に指定するIDは `vrchat-world`、`avatars`、`booth`、`youtube`、`podcast`、`movies`、`3d-models`、`games` です。
+`--mission` に指定するIDは `vrchat-world`、`avatars`、`3d-models`、`illustration`、`video`、`audio`、`games`、`tabletop` です。
 
 ```sh
 uv run --locked python -m gwp.select --mission 3d-models --sort suitable --inspected-only
-uv run --locked python -m gwp.select --mission youtube --sort popular --min-stars 1
+uv run --locked python -m gwp.select --mission video --sort popular --min-stars 1
 uv run --locked python -m gwp.select --mission vrchat-world --sort latest --updated-within-days 90
 uv run --locked python -m gwp.select --mission games --sort suitable --format csv > .cache/game-workflows.csv
 ```
@@ -65,3 +65,11 @@ uv run --locked python -m gwp.select --mission games --sort suitable --format cs
 `--inspected-only` は形式を静的確認した候補だけを表示します。`--min-stars` と `--updated-within-days` は指定した条件で表示を絞ります。指標が取得できない候補は、その条件を指定した場合に表示されません。収集台帳からは削除しません。
 
 既定ではGitHubから公開元のメタデータを取得します。`--offline` は台帳内の情報のみを使います。原典だけが設定に登録され、未収集の候補は `registry-only` と表示します。実行や商用利用を確認した意味ではありません。
+
+## 制作目的・媒体・公開先の3軸
+
+`missions` は何を作るかの8分類、`media_types` はWorkflowが扱う主な出力媒体（image/video/audio/3d）、`delivery_targets` は公開・利用先（vrchat/booth/youtube/web/local）です。登録済みWorkflowと複合パイプラインに3軸を付けます。
+
+制作案件は `mission_ids` で関連目的を複数参照できますが、`primary_mission_id` を1つ指定します。旧収集台帳にある `youtube`・`movies` は検索時だけ `video`、`podcast` は `audio` と読み替えます。旧 `booth` は販売先なので他の制作目的に自動読み替えしません。過去の候補・出典・履歴・SHA-256は変更しません。
+
+媒体分類はモデル名からの推測ではなく明示登録された候補の用途に限ります。旧台帳だけの候補では空欄を許し、未確認を装った自動補完はしません。検索の自動評価点は引き続き人気30・更新30・制作目的適合40で、媒体や公開先に追加点を与えません。

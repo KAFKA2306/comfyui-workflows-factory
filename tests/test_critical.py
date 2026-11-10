@@ -194,10 +194,53 @@ class CriticalSafetyTests(unittest.TestCase):
             validate_registry(broken)
         broken = copy.deepcopy(data)
         broken["projects"]["broken"] = {
-            "title": "制作", "tags": ["映像"], "mission_ids": ["youtube"],
-            "pipeline_ids": ["unknown"]
+            "title": "制作", "tags": ["映像"], "mission_ids": ["video"],
+            "primary_mission_id": "video", "pipeline_ids": ["unknown"]
         }
         with self.assertRaisesRegex(ValueError, "制作パイプライン"):
+            validate_registry(broken)
+
+
+    def test_domain_reclassification_preserves_sources_and_separates_delivery(self):
+        from gwp.evaluate import report
+        from gwp.select import candidates, MISSION_CATEGORIES
+
+        registry = load_registry()
+        domains = set(registry["missions"])
+        self.assertEqual(domains, set(MISSION_CATEGORIES))
+        self.assertEqual(domains, {
+            "vrchat-world", "avatars", "3d-models", "illustration",
+            "video", "audio", "games", "tabletop",
+        })
+        self.assertFalse({"booth", "youtube", "podcast", "movies"} & domains)
+        for row in registry["workflows"] + registry["pipelines"]:
+            self.assertTrue(set(row["mission_ids"]) <= domains)
+            self.assertTrue(set(row["media_types"]) <= set(registry["media_types"]))
+            self.assertTrue(set(row["delivery_targets"]) <= set(registry["delivery_targets"]))
+        # BOOTHの過去データは販売先であり、イラストへ自動誤分類しない。
+        historic = empty_catalog()
+        record_file(historic, "example/archive", "a" * 40,
+                    {"path": "legacy/no-hints.json", "sha": "b" * 40}, "2026-11-01")
+        entry_id = "github:example/archive:legacy/no-hints.json"
+        historic["artifacts"][entry_id]["mission_ids"] = ["booth", "youtube"]
+        video_ids = {item["id"] for item in candidates(historic, registry, "video")}
+        image_ids = {item["id"] for item in candidates(historic, registry, "illustration")}
+        self.assertIn(entry_id, video_ids)
+        self.assertNotIn(entry_id, image_ids)
+        selection = report(historic, registry, now=datetime(2026, 11, 10, tzinfo=timezone.utc))
+        self.assertEqual(set(selection["assignments"]), domains)
+        self.assertEqual(selection["candidates"], len(historic["artifacts"]) + len(registry["workflows"]))
+        self.assertEqual(historic["artifacts"][entry_id]["mission_ids"], ["booth", "youtube"])
+        broken = copy.deepcopy(registry)
+        broken["workflows"][0]["media_types"] = ["unknown"]
+        with self.assertRaisesRegex(ValueError, "制作媒体"):
+            validate_registry(broken)
+        broken = copy.deepcopy(registry)
+        broken["projects"]["invalid"] = {
+            "title": "不整合", "tags": ["作品"], "mission_ids": ["audio"],
+            "primary_mission_id": "video",
+        }
+        with self.assertRaisesRegex(ValueError, "主制作領域"):
             validate_registry(broken)
 
 

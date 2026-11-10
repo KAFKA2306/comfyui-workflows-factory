@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from gwp.registry import load_registry
-from gwp.select import MISSION_CATEGORIES, matches, source_rows, _time, repository_metadata
+from gwp.select import MISSION_CATEGORIES, matches, source_rows, _time, repository_metadata, normalized_missions
 from gwp.state import load_catalog
 
 
@@ -30,7 +30,7 @@ def evaluate(item, catalog, registry, now, vram_gb=None):
     mission_scores = {}
     for mission in MISSION_CATEGORIES:
         hits = matches(item, registry, mission)
-        explicit = mission in item.get("mission_ids", [])
+        explicit = mission in normalized_missions(item)
         if hits or explicit:
             mission_scores[mission] = min(40, (30 if explicit else 0) + min(10, 2 * len(hits)))
     suitability = max(mission_scores.values(), default=0)
@@ -58,6 +58,8 @@ def evaluate(item, catalog, registry, now, vram_gb=None):
                              "mission_fit": suitability},
         "mission_scores": mission_scores, "required_models": models,
         "node_types": nodes, "custom_nodes": "未確認",
+        "media_types": item.get("media_types") or [],
+        "delivery_targets": item.get("delivery_targets") or [],
         "required_vram_gb": required_vram, "input_formats": item.get("input_formats"),
         "output_formats": item.get("output_formats"), "license_spdx": license_id,
         "repository_license_spdx": meta.get("license_spdx"),

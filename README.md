@@ -17,20 +17,20 @@ sources: ["https://github.com/Comfy-Org/ComfyUI","https://github.com/Comfy-Org/w
 
 **[8領域の最有力候補・原典・代替・未検証事項を見る](docs/knowledge/best-workflows.md)**。人間向けの判断入口です。収集候補の人気順位と実機で品質を確認した「ベスト」は区別しています。
 
-## 対等な8つの長期目標
+## 対等な8つの制作目的
 
-| 領域 | 公開する作品 |
+| 制作目的 | 主成果物（主目的は制作案件ごとに1つ） |
 | --- | --- |
-| VRChatワールド | Chill World、探索・交流・体験型ワールド |
-| アバター・衣装 | VRM、衣装、アクセサリー |
-| BOOTH商品 | 3D素材、背景、デジタル商品 |
-| YouTube・Shorts | 解説動画、短編、キャラクター動画 |
-| Podcast・音声 | 音声番組、ナレーション、音響素材 |
-| 映画・アニメーション | 短編、連続映像、映像作品 |
-| 3Dモデル | キャラクター、建築、家具、ゲーム向けモデル |
-| ゲーム制作 | ゲーム本体、ワールド、キャラクター、UI、素材 |
+| VRChatワールド・空間 | ワールド、背景、空間演出 |
+| アバター・衣装 | VRM、衣装、リグ、表情 |
+| 3Dモデル・造形 | メッシュ、静的3Dアセット |
+| イラスト・画像デザイン | 立ち絵、画像編集、商品画像、図解 |
+| 映像・アニメーション | MV、映画、Shorts、アニメ |
+| 音声・音楽 | Podcast、ASMR、シチュエーションボイス、BGM |
+| ゲーム・インタラクティブ作品 | デジタルゲーム、操作可能な体験、UI |
+| ボードゲーム・マダミス | カード、盤面、マダミスの画像・音声素材 |
 
-8領域は対等です。各領域で制作・検証・公開を並行して進め、特定の作品の完成を別の領域の開始条件にしません。
+8つは対等です。**制作目的（missions）／成果物の媒体（media_types: image・video・audio・3d）／公開・利用先（delivery_targets: VRChat・BOOTH・YouTube・Web・local）** を別々に管理します。Workflowやパイプラインは複数の制作目的で再利用可能。新しい制作案件の主目的は `primary_mission_id` で一意に指定します。BOOTH・YouTubeは販売・公開先であり、制作分野ではありません。既存の大容量収集台帳の旧ラベルは書き換えず、選定器が互換処理します。
 
 ## 設計書と台帳
 
@@ -79,7 +79,7 @@ uv run --locked python -m gwp.registry list --kind pipelines
 
 ```sh
 uv run --locked python -m gwp.select --mission 3d-models --sort suitable --inspected-only
-uv run --locked python -m gwp.select --mission youtube --sort popular --min-stars 1
+uv run --locked python -m gwp.select --mission video --sort popular --min-stars 1
 uv run --locked python -m gwp.select --mission games --sort latest --updated-within-days 90
 ```
 

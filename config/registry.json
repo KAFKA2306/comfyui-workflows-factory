@@ -2,60 +2,75 @@
   "schema_version": 2,
   "missions": {
     "vrchat-world": {
-      "title": "VRChatワールド",
+      "title": "VRChatワールド・空間",
       "tags": [
         "VRChat",
-        "ワールド"
-      ]
+        "ワールド",
+        "空間"
+      ],
+      "scope": "VRChatで体験する空間・環境・ワールドを主成果物とする。アバター自体はavatars、汎用3D素材は3d-models"
     },
     "avatars": {
       "title": "アバター・衣装",
       "tags": [
         "アバター",
-        "衣装"
-      ]
-    },
-    "booth": {
-      "title": "BOOTH商品",
-      "tags": [
-        "BOOTH",
-        "商品"
-      ]
-    },
-    "youtube": {
-      "title": "YouTube・Shorts",
-      "tags": [
-        "YouTube",
-        "動画"
-      ]
-    },
-    "podcast": {
-      "title": "Podcast・音声",
-      "tags": [
-        "Podcast",
-        "音声"
-      ]
-    },
-    "movies": {
-      "title": "映画・アニメーション",
-      "tags": [
-        "映画",
-        "映像"
-      ]
+        "衣装",
+        "VRM"
+      ],
+      "scope": "操作・着用するキャラクター本体、衣装、表情、リギングを主成果物とする"
     },
     "3d-models": {
-      "title": "3Dモデル",
+      "title": "3Dモデル・造形",
       "tags": [
         "3D",
-        "メッシュ"
-      ]
+        "メッシュ",
+        "GLB"
+      ],
+      "scope": "特定作品への組込みよりも単体の立体形状・質感・3D素材を主成果物とする"
+    },
+    "illustration": {
+      "title": "イラスト・画像デザイン",
+      "tags": [
+        "イラスト",
+        "画像編集",
+        "デザイン"
+      ],
+      "scope": "独立した静止画像、立ち絵、図解、商品画像、2Dデザインを主成果物とする"
+    },
+    "video": {
+      "title": "映像・アニメーション",
+      "tags": [
+        "動画",
+        "映像",
+        "アニメ"
+      ],
+      "scope": "時間軸のある映像、MV、短編、Shortsを主成果物とする。YouTubeは公開先として別管理"
+    },
+    "audio": {
+      "title": "音声・音楽",
+      "tags": [
+        "音声",
+        "音楽",
+        "ASMR"
+      ],
+      "scope": "音声番組、台詞、ASMR、シチュエーションボイス、音楽、効果音を主成果物とする"
     },
     "games": {
-      "title": "ゲーム制作",
+      "title": "ゲーム・インタラクティブ作品",
       "tags": [
         "ゲーム",
-        "ワールド"
-      ]
+        "インタラクティブ"
+      ],
+      "scope": "操作と応答を持つデジタルゲーム・体験を主成果物とする。VRChatワールドはvrchat-world"
+    },
+    "tabletop": {
+      "title": "ボードゲーム・マダミス",
+      "tags": [
+        "ボードゲーム",
+        "マーダーミステリー",
+        "カード"
+      ],
+      "scope": "卓上・対面型のゲーム作品とそのカード、盤面、物語素材を主成果物とする。ルール設計はComfyUIの範囲外"
     }
   },
   "github_repos": [
@@ -99,7 +114,10 @@
     "ComfyUI workflow video in:name,description",
     "ComfyUI workflow 3D in:name,description",
     "ComfyUI workflow audio in:name,description",
-    "ComfyUI workflow VRChat in:name,description"
+    "ComfyUI workflow VRChat in:name,description",
+    "ComfyUI illustration character sheet in:name,description",
+    "ComfyUI ASMR voice TTS in:name,description",
+    "ComfyUI boardgame card art in:name,description"
   ],
   "metadata_feeds": [
     {
@@ -165,24 +183,29 @@
   ],
   "categories": [
     {
-      "id": "youtube",
-      "title": "動画・YouTube",
+      "id": "video",
+      "title": "映像制作の手掛かり",
       "keywords": [
         "youtube",
         "shorts",
-        "social video",
         "t2v",
         "i2v",
         "video",
         "ltx",
         "wanvideo",
-        "talking",
-        "avatar_video"
+        "cinematic",
+        "film",
+        "movie",
+        "animate",
+        "motion",
+        "frame",
+        "camera",
+        "talking"
       ]
     },
     {
-      "id": "podcast",
-      "title": "音声・ポッドキャスト",
+      "id": "audio",
+      "title": "音声制作の手掛かり",
       "keywords": [
         "podcast",
         "audio",
@@ -190,26 +213,50 @@
         "chatterbox",
         "voice",
         "speech",
-        "lip sync",
-        "lipsync",
         "whisper",
-        "sound"
+        "sound",
+        "asmr",
+        "music",
+        "song",
+        "sfx",
+        "vocal"
       ]
     },
     {
-      "id": "movies",
-      "title": "映像・映画",
+      "id": "illustration",
+      "title": "静止画像・デザインの手掛かり",
       "keywords": [
-        "cinematic",
-        "film",
-        "movie",
-        "video",
-        "wan",
-        "ltx",
-        "animate",
-        "motion",
-        "frame",
-        "camera"
+        "illustration",
+        "image-edit",
+        "image_edit",
+        "imagegen",
+        "character-sheet",
+        "character_sheet",
+        "portrait",
+        "artwork",
+        "drawing",
+        "sketch",
+        "lineart",
+        "inpaint",
+        "upscale"
+      ]
+    },
+    {
+      "id": "tabletop",
+      "title": "卓上ゲーム素材の手掛かり",
+      "keywords": [
+        "tabletop",
+        "boardgame",
+        "board-game",
+        "board_game",
+        "cardgame",
+        "card-game",
+        "card_game",
+        "murder-mystery",
+        "murder_mystery",
+        "madamisu",
+        "meeple",
+        "game-card"
       ]
     },
     {
@@ -235,21 +282,6 @@
         "expression",
         "vrm",
         "humanoid"
-      ]
-    },
-    {
-      "id": "booth",
-      "title": "BOOTH向け素材",
-      "keywords": [
-        "booth",
-        "product",
-        "merch",
-        "texture",
-        "illustration",
-        "3d",
-        "mesh",
-        "upscale",
-        "pbr"
       ]
     },
     {
@@ -330,7 +362,11 @@
         "3d-models"
       ],
       "license": "未確認",
-      "hardware_validation": "not-tested"
+      "hardware_validation": "not-tested",
+      "media_types": [
+        "3d"
+      ],
+      "delivery_targets": []
     },
     {
       "id": "trellis2-image-to-model",
@@ -344,11 +380,16 @@
       ],
       "mission_ids": [
         "3d-models",
-        "booth",
         "games"
       ],
       "license": "未確認",
-      "hardware_validation": "not-tested"
+      "hardware_validation": "not-tested",
+      "media_types": [
+        "3d"
+      ],
+      "delivery_targets": [
+        "booth"
+      ]
     },
     {
       "id": "pixal3d-multiview-character-to-glb",
@@ -366,11 +407,16 @@
       "mission_ids": [
         "avatars",
         "3d-models",
-        "booth",
         "games"
       ],
       "license": "未確認",
-      "hardware_validation": "not-tested"
+      "hardware_validation": "not-tested",
+      "media_types": [
+        "3d"
+      ],
+      "delivery_targets": [
+        "booth"
+      ]
     },
     {
       "id": "qwen-image-360",
@@ -387,7 +433,13 @@
         "games"
       ],
       "license": "未確認",
-      "hardware_validation": "not-tested"
+      "hardware_validation": "not-tested",
+      "media_types": [
+        "image"
+      ],
+      "delivery_targets": [
+        "vrchat"
+      ]
     },
     {
       "id": "chatterbox-dialog-tts",
@@ -401,10 +453,14 @@
         "会話"
       ],
       "mission_ids": [
-        "podcast"
+        "audio"
       ],
       "license": "未確認",
-      "hardware_validation": "not-tested"
+      "hardware_validation": "not-tested",
+      "media_types": [
+        "audio"
+      ],
+      "delivery_targets": []
     },
     {
       "id": "ace-step-1-5-audio",
@@ -417,11 +473,15 @@
         "音声"
       ],
       "mission_ids": [
-        "podcast",
-        "movies"
+        "audio",
+        "video"
       ],
       "license": "未確認",
-      "hardware_validation": "not-tested"
+      "hardware_validation": "not-tested",
+      "media_types": [
+        "audio"
+      ],
+      "delivery_targets": []
     },
     {
       "id": "qwen-image-edit-2511",
@@ -435,10 +495,16 @@
       ],
       "mission_ids": [
         "avatars",
-        "booth"
+        "illustration"
       ],
       "license": "未確認",
-      "hardware_validation": "not-tested"
+      "hardware_validation": "not-tested",
+      "media_types": [
+        "image"
+      ],
+      "delivery_targets": [
+        "booth"
+      ]
     },
     {
       "id": "character-sheet",
@@ -452,10 +518,16 @@
       ],
       "mission_ids": [
         "avatars",
-        "games"
+        "illustration",
+        "games",
+        "tabletop"
       ],
       "license": "未確認",
-      "hardware_validation": "not-tested"
+      "hardware_validation": "not-tested",
+      "media_types": [
+        "image"
+      ],
+      "delivery_targets": []
     },
     {
       "id": "ltx-2-3-text-to-video",
@@ -468,11 +540,16 @@
         "映像"
       ],
       "mission_ids": [
-        "youtube",
-        "movies"
+        "video"
       ],
       "license": "未確認",
-      "hardware_validation": "not-tested"
+      "hardware_validation": "not-tested",
+      "media_types": [
+        "video"
+      ],
+      "delivery_targets": [
+        "youtube"
+      ]
     },
     {
       "id": "ltx-2-3-image-to-video",
@@ -485,11 +562,16 @@
         "画像から動画"
       ],
       "mission_ids": [
-        "youtube",
-        "movies"
+        "video"
       ],
       "license": "未確認",
-      "hardware_validation": "not-tested"
+      "hardware_validation": "not-tested",
+      "media_types": [
+        "video"
+      ],
+      "delivery_targets": [
+        "youtube"
+      ]
     },
     {
       "id": "wan-2-2-5b-video",
@@ -502,11 +584,16 @@
         "映像"
       ],
       "mission_ids": [
-        "youtube",
-        "movies"
+        "video"
       ],
       "license": "未確認",
-      "hardware_validation": "not-tested"
+      "hardware_validation": "not-tested",
+      "media_types": [
+        "video"
+      ],
+      "delivery_targets": [
+        "youtube"
+      ]
     },
     {
       "id": "sprite-sheet",
@@ -520,10 +607,17 @@
       ],
       "mission_ids": [
         "games",
-        "booth"
+        "illustration",
+        "tabletop"
       ],
       "license": "未確認",
-      "hardware_validation": "not-tested"
+      "hardware_validation": "not-tested",
+      "media_types": [
+        "image"
+      ],
+      "delivery_targets": [
+        "booth"
+      ]
     },
     {
       "id": "trellis2-lowpoly",
@@ -540,7 +634,11 @@
         "games"
       ],
       "license": "未確認",
-      "hardware_validation": "not-tested"
+      "hardware_validation": "not-tested",
+      "media_types": [
+        "3d"
+      ],
+      "delivery_targets": []
     },
     {
       "id": "isometric-tiles",
@@ -554,10 +652,16 @@
       ],
       "mission_ids": [
         "games",
-        "booth"
+        "tabletop"
       ],
       "license": "未確認",
-      "hardware_validation": "not-tested"
+      "hardware_validation": "not-tested",
+      "media_types": [
+        "image"
+      ],
+      "delivery_targets": [
+        "booth"
+      ]
     },
     {
       "id": "seedvr2-upscale",
@@ -570,11 +674,18 @@
         "画像"
       ],
       "mission_ids": [
-        "booth",
-        "youtube"
+        "illustration",
+        "video"
       ],
       "license": "未確認",
-      "hardware_validation": "not-tested"
+      "hardware_validation": "not-tested",
+      "media_types": [
+        "image"
+      ],
+      "delivery_targets": [
+        "booth",
+        "youtube"
+      ]
     }
   ],
   "pipelines": [
@@ -588,8 +699,7 @@
         "文字PV"
       ],
       "mission_ids": [
-        "youtube",
-        "movies"
+        "video"
       ],
       "inputs": [
         "song.mp3",
@@ -630,6 +740,13 @@
         "歌詞と開始時刻を試聴確認する",
         "演出と文字の欠けを確認する",
         "音源・歌詞の公開利用権を確認する"
+      ],
+      "media_types": [
+        "video",
+        "image"
+      ],
+      "delivery_targets": [
+        "youtube"
       ]
     },
     {
@@ -642,8 +759,7 @@
         "文字PV"
       ],
       "mission_ids": [
-        "youtube",
-        "movies"
+        "video"
       ],
       "inputs": [
         "song.mp3"
@@ -679,6 +795,12 @@
       "checks": [
         "歌唱の誤認識・歌詞欠落と時刻を修正する",
         "音源・歌詞の公開利用権を確認する"
+      ],
+      "media_types": [
+        "video"
+      ],
+      "delivery_targets": [
+        "youtube"
       ]
     },
     {
@@ -691,8 +813,7 @@
         "背景"
       ],
       "mission_ids": [
-        "youtube",
-        "movies"
+        "video"
       ],
       "inputs": [
         "song.mp3",
@@ -732,6 +853,12 @@
       "checks": [
         "歌詞時刻と字幕表示を確認する",
         "ブラウザの動画エンコーダーへの対応を確認する"
+      ],
+      "media_types": [
+        "video"
+      ],
+      "delivery_targets": [
+        "youtube"
       ]
     },
     {
@@ -744,8 +871,7 @@
         "LRC"
       ],
       "mission_ids": [
-        "youtube",
-        "movies"
+        "video"
       ],
       "inputs": [
         "background.mp4",
@@ -785,6 +911,12 @@
       "checks": [
         "音源と背景のタイミングを確認する",
         "背景映像の生成はこの工程の外にある"
+      ],
+      "media_types": [
+        "video"
+      ],
+      "delivery_targets": [
+        "youtube"
       ]
     },
     {
@@ -797,8 +929,8 @@
         "音声"
       ],
       "mission_ids": [
-        "podcast",
-        "youtube"
+        "audio",
+        "video"
       ],
       "inputs": [
         "voice.mp3"
@@ -823,6 +955,12 @@
       ],
       "checks": [
         "固有名詞・時刻・字幕の可読性を確認する"
+      ],
+      "media_types": [
+        "video"
+      ],
+      "delivery_targets": [
+        "youtube"
       ]
     },
     {
@@ -835,8 +973,7 @@
         "無音削除"
       ],
       "mission_ids": [
-        "youtube",
-        "podcast"
+        "video"
       ],
       "inputs": [
         "talk.mp4"
@@ -860,6 +997,12 @@
       "checks": [
         "編集プランで誤認識と削除区間を確認する",
         "字幕の見切れと音声を確認する"
+      ],
+      "media_types": [
+        "video"
+      ],
+      "delivery_targets": [
+        "youtube"
       ]
     },
     {
@@ -875,12 +1018,12 @@
       "mission_ids": [
         "vrchat-world",
         "avatars",
-        "booth",
-        "youtube",
-        "podcast",
-        "movies",
         "3d-models",
-        "games"
+        "illustration",
+        "video",
+        "audio",
+        "games",
+        "tabletop"
       ],
       "inputs": [
         "prompt.txt"
@@ -906,6 +1049,14 @@
         "生成画像をプロジェクトに保存し、ファイル実在・形式・SHA-256・プロンプトを確認する",
         "ComfyUIへの投入は対象の画像入力ノードとAPI形式Workflowの設定が別途必要。自動接続・品質評価・3D化の成功は未検証とする",
         "組み込みツールが使えなくてもAPIキーを要求するCLI方式へ無断で切り替えない"
+      ],
+      "media_types": [
+        "image"
+      ],
+      "delivery_targets": [
+        "vrchat",
+        "booth",
+        "youtube"
       ]
     },
     {
@@ -921,7 +1072,6 @@
       "mission_ids": [
         "avatars",
         "3d-models",
-        "booth",
         "games"
       ],
       "inputs": [
@@ -966,6 +1116,13 @@
         "GLBのメッシュ・UV・PBRテクスチャとBlenderでの表示を確認する",
         "ComfyUIノード・モデルの対応版、モデルの利用条件、GPUメモリ、実機成功は未確認として扱う",
         "独自ラッパpixal_run.pyは未収録。レンダリングの自動実行は未実装として扱う"
+      ],
+      "media_types": [
+        "3d",
+        "image"
+      ],
+      "delivery_targets": [
+        "booth"
       ]
     },
     {
@@ -981,8 +1138,7 @@
       "mission_ids": [
         "avatars",
         "3d-models",
-        "games",
-        "booth"
+        "games"
       ],
       "inputs": [
         "character.png"
@@ -1032,7 +1188,44 @@
         "Blender 4.2以降では現行MMD-Blender保守版を優先する。旧sugiany版を現行保守版とみなさない",
         "PMXでのVMD再生とMMD骨格の整合を実機で確認する。GLBからPMXへの無調整・全自動変換は保証しない",
         "独自ラッパkafka_mmd.pyとkafka_avatar.pyは本リポジトリに未収録。入力の権利とモデル重み・生成物の利用条件を別途確認する"
+      ],
+      "media_types": [
+        "3d"
+      ],
+      "delivery_targets": [
+        "booth"
       ]
     }
-  ]
+  ],
+  "media_types": {
+    "image": {
+      "title": "静止画像"
+    },
+    "video": {
+      "title": "動画"
+    },
+    "audio": {
+      "title": "音声"
+    },
+    "3d": {
+      "title": "3D・立体"
+    }
+  },
+  "delivery_targets": {
+    "vrchat": {
+      "title": "VRChat"
+    },
+    "booth": {
+      "title": "BOOTH"
+    },
+    "youtube": {
+      "title": "YouTube"
+    },
+    "web": {
+      "title": "Web"
+    },
+    "local": {
+      "title": "ローカル・制作素材"
+    }
+  }
 }

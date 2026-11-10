@@ -3,7 +3,7 @@ id: "knowledge-best-workflows"
 title: "現行の最有力Workflowと採用判断"
 kind: "knowledge"
 status: "active"
-updated: "2026-11-08"
+updated: "2026-11-10"
 tags: ["最良候補","制作領域","選定","比較","検証"]
 related: ["config/registry.json","data/workflow_registry.json","src/gwp/evaluate.py","src/gwp/select.py","docs/knowledge/pipelines.md","docs/design/production.md"]
 sources: ["https://github.com/Comfy-Org/workflow_templates","https://github.com/Comfy-Org/ComfyUI","https://github.com/TencentARC/Pixal3D","https://github.com/VAST-AI-Research/TripoSG"]
@@ -11,7 +11,7 @@ sources: ["https://github.com/Comfy-Org/workflow_templates","https://github.com/
 
 # いま何が最良候補なのか
 
-**対象：2026-11-08時点の `config/registry.json` に明示登録された15個のComfyUI Workflow候補と9個の制作パイプライン。** このページは、人間が用途・理由・原典・代替・制約を理解するための入口。収集済み全候補の確定順位や、実機で品質を実証した「世界最高」の宣言ではない。
+**対象：2026-11-10時点の `config/registry.json` に明示登録された15個のComfyUI Workflow候補と9個の制作パイプライン。** このページは、人間が用途・理由・原典・代替・制約を理解するための入口。収集済み全候補の確定順位や、実機で品質を実証した「世界最高」の宣言ではない。
 
 ## まず結論
 
@@ -19,20 +19,20 @@ sources: ["https://github.com/Comfy-Org/workflow_templates","https://github.com/
 - **今すぐ比較を始める入口：下表の「第一候補」。** 入力と成果物が制作目的に近いものを優先している。用途別の**検証順**であり、品質比較に勝った順位ではない。
 - **候補数を増やす・最新の順位を見る：** [収集台帳](../../data/workflow_registry.json) と [評価器](../../src/gwp/evaluate.py)。15件以外も探索する。リポジトリのスターや更新日を個々のWorkflowの品質と混同しない。
 
-## 8つの制作領域：第一候補と使い分け
+## 新8制作目的：検証を始める入口
 
-| 領域 | 最初に検証する候補 | それを選ぶ目的 | 別の目的なら |
-| --- | --- | --- | --- |
-| VRChatワールド | [Qwen Image 360](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/template_qwen_Image_2512_360_lora.json) | 360度背景・環境画像の素材を作る | ワールド全体のUnity構築、ギミック、最適化はこのWorkflowの範囲外 |
-| アバター・衣装 | [Pixal3D 4方向→GLB](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_pixal3d_multi_views.json) | 4方向画像から形状・テクスチャを持つ静的3D素材を作る | 骨格・MMD対応が必要なら[TripoSG→SkinToken→MMD](pipelines.md)との比較が必要 |
-| BOOTH商品 | [Pixal3D 4方向→GLB](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_pixal3d_multi_views.json) | 販売用3D素材の原型候補を作る | 画像商品の高精細化なら[SeedVR2](https://github.com/0c0/ComfyUI-Roundabout/blob/main/workflows/utility_seedvr2_upscale.json) |
-| YouTube・Shorts | [LTX 2.3 画像→動画](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/video_ltx2_3_i2v.json) | 既存イラスト・素材から動画を作る | テキストからは[LTX 2.3 T2V](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/video_ltx2_3_t2v.json)、字幕・Shorts編集は[外部パイプライン](pipelines.md) |
-| Podcast・音声 | [Chatterbox会話TTS](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/audio-chatterbox_tts_dialog.json) | 台詞・掛け合いの音声生成 | 音楽・効果音なら[ACE-Step 1.5](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/audio_ace_step_1_5_split_4b.json)、字幕動画は[Phrasync工程](pipelines.md) |
-| 映画・アニメ | [LTX 2.3 画像→動画](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/video_ltx2_3_i2v.json) | 既存のキービジュアルから動くカットを作る | 画像を先に作らないなら[LTX 2.3 T2V](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/video_ltx2_3_t2v.json) |
-| 3Dモデル | [Pixal3D 4方向→GLB](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_pixal3d_multi_views.json) | 複数方向のキャラクター資料がある場合 | 1画像なら[TRELLIS.2](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_pixal3d_trellis2_image_to_model.json)や[Hunyuan3D](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_hunyuan3d_image_to_model.json) |
-| ゲーム制作 | [TRELLIS.2 ローポリ](https://github.com/aaroncose/comfyui-trellis-wan-workflows/blob/main/workflows/trellis2/img2glb-lowpoly.json) | ゲーム向け3D素材の形状候補 | 2Dなら[スプライト](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/template_purz_nb2_single_image_sprite_sheet.json)か[アイソメタイル](https://github.com/0xheycat/isometric-game-skills/blob/main/skills/seamless-isometric-terrain/scripts/MEOWART_iso_tile_transparent_resepD_v3.json) |
+| 制作目的 | 最初に検証する候補 | 制約と使い分け |
+| --- | --- | --- |
+| VRChatワールド・空間 | [Qwen Image 360](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/template_qwen_Image_2512_360_lora.json) | 360度背景素材でありUnityワールド完成ではない |
+| アバター・衣装 | [Pixal3D 4視点](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_pixal3d_multi_views.json) | 形状・テクスチャとリギング・衣装調整は別 |
+| 3Dモデル・造形 | [Pixal3D](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_pixal3d_multi_views.json) / [TRELLIS.2](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_pixal3d_trellis2_image_to_model.json) | 入力視点・モデル環境・VRAMを別途確認 |
+| イラスト・画像デザイン | [Character Sheet](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/templates-character_sheet.json) / [Qwen Image Edit](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/image_qwen_image_edit_2511.json) | キャラクター素材と画像編集の用途別候補 |
+| 映像・アニメーション | [LTX 2.3 I2V](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/video_ltx2_3_i2v.json) | I2VとT2Vを混同しない。YouTubeは公開先 |
+| 音声・音楽 | [Chatterbox](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/audio-chatterbox_tts_dialog.json) / [ACE-Step](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/audio_ace_step_1_5_split_4b.json) | 会話TTSと音楽・ASMRは同一品質を保証しない |
+| ゲーム・インタラクティブ作品 | [TRELLIS.2ローポリ](https://github.com/aaroncose/comfyui-trellis-wan-workflows/blob/main/workflows/trellis2/img2glb-lowpoly.json) / [Sprite Sheet](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/template_purz_nb2_single_image_sprite_sheet.json) | 素材制作でありゲーム本体の実装は別 |
+| ボードゲーム・マダミス | [Character Sheet](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/templates-character_sheet.json) / [Sprite Sheet](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/template_purz_nb2_single_image_sprite_sheet.json) | カード・登場人物の画像素材候補。ルール・推理シナリオの完成は別 |
 
-**読み方：** 「第一候補」は目的に合う原典候補という意味。例えばPixal3DでGLBを作れても、VRChatに必要なHumanoidリグ・表情・衣装追従まで満たしたことにはならない。動画や音声も、生成できることと作品として使えることは別の検証である。
+**媒体・公開先は別分類。** image/video/audio/3dを媒体、VRChat/BOOTH/YouTube/Web/localを公開・利用先として記録する。上表は成果物の主目的であり、Workflowは複数の制作目的に再利用可能。すべて検証順の候補であり、実機品質の優劣や商用利用の許可は未確認。
 
 ## 比較対象を落とさない：明示登録された全15件
 

@@ -24,7 +24,7 @@ sources: []
 | `missions` | 作品が属する制作領域 |
 | `continuity` | 素材や場面で共有する美術、人物、音の条件 |
 | `units` | 各単位の `id`、`kind`、`purpose`、`deliverables`、`requires`、必要に応じて `workflow_ids`・`pipeline_ids` |
-| `releases` | 公開先の `id`・`mission`、必要な制作単位の `requires` |
+| `releases` | 公開項目の `id`・制作目的の `mission`・任意の `delivery_target`、必要な制作単位の `requires` |
 
 `units` の `workflow_ids` には `config/registry.json` に登録したWorkflow IDを指定します。`validate` は未登録のWorkflow ID、制作案件に登録されていない領域、依存関係の循環を検出します。`pipeline_ids` は[外部ツールの制作パイプライン](../knowledge/pipelines.md)の工程を参照し、ComfyUIの `workflow_ids` と区別します。Workflow自身の領域タグと制作案件の一致、モデルの利用条件、生成物の品質は判定しません。
 
@@ -45,3 +45,7 @@ uv run --locked python -m gwp.creative impact --plan "$PLAN" --unit "$UNIT"
 `order` は依存関係に沿った制作順を返します。`impact` は指定した単位に依存する制作単位と公開先を返します。結果は再検討する範囲であり、再生成の実施履歴ではありません。
 
 素材の実行と受け渡しは[制作工程](production.md)のCLIで行います。作品の品質確認と公開は制作先で実施します。
+
+## 制作目的と公開先の独立管理
+
+`config/registry.json` の各制作案件には主目的 `primary_mission_id` を1つ定める。作品内の異なる素材・工程のために `mission_ids` を複数指定してよい。公開先は `releases[].delivery_target`（`vrchat`、`booth`、`youtube`、`web`、`local`）で明示し、`releases[].mission` は制作目的として扱う。旧制作仕様との互換性のため `delivery_target` の省略は許すが、省略を「公開先を検証済み」と解釈しない。
