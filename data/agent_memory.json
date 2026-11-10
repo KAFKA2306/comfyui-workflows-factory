@@ -24,7 +24,7 @@
       "checked_on": "2026-11-07",
       "applies_to": [
         "src/gwp/evaluate.py",
-        "tests/test_selection.py"
+        "tests/test_critical.py"
       ],
       "next_verification": "実台帳を固定して8領域の候補順位・グループ数を変更前後で比較し、実機での作品制作可否は別途確認する。"
     }
