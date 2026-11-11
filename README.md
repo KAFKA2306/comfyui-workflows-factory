@@ -1,6 +1,6 @@
 ---
 id: "readme"
-title: "ComfyUI制作基盤"
+title: "ComfyUI Workflow収集・評価基盤"
 kind: "index"
 status: "active"
 updated: "2026-11-08"
@@ -9,9 +9,9 @@ related: ["docs/README.md","src/gwp/discovery.py"]
 sources: ["https://github.com/Comfy-Org/ComfyUI","https://github.com/Comfy-Org/workflow_templates"]
 ---
 
-# ComfyUI制作基盤
+# ComfyUI Workflow収集・評価基盤
 
-公開されているComfyUIのWorkflowを収集し、出典と改訂履歴を残して作品制作に利用します。目標は、次の8領域で作品を完成・公開し、制作に使った工程と知識を再利用できるようにすることです。
+公開されているComfyUIのWorkflowを発見・収集・評価・選定し、出典と改訂履歴を保全して制作基盤へ引き渡すためのリポジトリです。8つの制作目的を対等に扱います。作品の生成・完成・公開と実機での品質、速度、VRAM、失敗率の検証は製造基盤の責任であり、収集の成功を制作の成功とは扱いません。
 
 ## 現時点の最有力Workflow
 
