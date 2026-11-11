@@ -39,6 +39,12 @@ uv run --locked python -m gwp.state verify --catalog .cache/restored.json
 
 破損時は、元のファイルを保持したまま正常なバックアップを確認し、`gwp.state restore --catalog <復旧先> --other <バックアップファイル>` で復元します。実行前にバックアップの検証ファイルも確認してください。
 
+## 大容量台帳をAPIで読む際の注意
+
+GitHub Contents APIや一部の連携ツールでは、大容量の `data/workflow_registry.json` が空文字列として返る場合がある。**空の応答を空の台帳・破損・候補消失と判定しない。** ファイルのGit Blob SHAを取得し、GitHub Git Blobs API（[公式仕様](https://docs.github.com/en/rest/git/blobs#get-a-blob)）から本文を再取得する。取得した本文がJSONとして解析でき、必要なセクションを持つことを確認する。
+
+Git Blob SHAはGitオブジェクトの識別子であり、隣接する `.sha256` に記載された**台帳本文のSHA-256とは別物**。Blobs APIでJSONを読めたことだけでSHA-256検証済みとは報告しない。本文をバイト列として完全保存できる環境で、上記の `uv run --locked python -m gwp.state verify` を実行する。取得失敗時もmainの台帳を上書き・削除しない。
+
 ## 制作・公開履歴の更新
 
 作品、採用Workflow、依存モデル、実行ジョブ、権利、公開の履歴は `gwp.ledger` で更新します。更新したローカル台帳は `scripts/catalog_publish.sh` でmainへ統合します。操作例では、`PROJECT_ID` に実際の案件ID、`PAYLOAD` にその案件のJSONファイルを指定します。
