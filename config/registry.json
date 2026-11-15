@@ -1126,6 +1126,78 @@
       ]
     },
     {
+      "id": "blender-mcp-static-prop",
+      "title": "Blender SkillsとMCPで静的な3D小物を作る",
+      "purpose": "造形指示から編集用BlenderファイルとUnity受け渡し用FBXを作り、確認用PNGを保存する。",
+      "tags": [
+        "Blender",
+        "MCP",
+        "FBX",
+        "VRChat"
+      ],
+      "mission_ids": [
+        "3d-models",
+        "vrchat-world"
+      ],
+      "inputs": [
+        "造形指示"
+      ],
+      "steps": [
+        {
+          "tool": "Blender Skills blender-director",
+          "source_url": "https://github.com/arjun988/blender-skills/tree/904f095d8f36a6e72adaebb08d07f884a074743d",
+          "requires": [
+            "造形指示"
+          ],
+          "provides": [
+            "制作仕様"
+          ],
+          "action": "用途、形状、寸法、原点、マテリアルと書き出し形式を決める。"
+        },
+        {
+          "tool": "MCP for Blender 2.2.9",
+          "source_url": "https://pypi.org/project/mcp-for-blender/2.2.9/",
+          "requires": [
+            "制作仕様"
+          ],
+          "provides": [
+            "prop.blend",
+            "prop.fbx"
+          ],
+          "action": "稼働中のBlenderでモデルを作り、編集用ファイルと選択メッシュのFBXを書き出す。"
+        },
+        {
+          "tool": "Blender",
+          "source_url": "https://projects.blender.org/blender/blender",
+          "requires": [
+            "prop.blend"
+          ],
+          "provides": [
+            "prop.png"
+          ],
+          "action": "プレビュー用カメラからモデルの形状と質感をレンダリングする。"
+        }
+      ],
+      "outputs": [
+        "prop.blend",
+        "prop.fbx",
+        "prop.png"
+      ],
+      "checks": [
+        "Blender MCPから現在のシーンを読み取れることを確かめる",
+        "FBXをBlenderへ再読み込みし、寸法・底面原点・UV・マテリアル・三角形数を照合する",
+        "Unityへの取込みとVRChat内の表示は別途実機で確認する"
+      ],
+      "media_types": [
+        "3d",
+        "image"
+      ],
+      "delivery_targets": [
+        "vrchat",
+        "local"
+      ]
+    },
+    {
       "id": "triposg-skintoken-mmd-avatar",
       "title": "TripoSGからSkinTokenでリギングしMMD用PMX素材へ変換",
       "purpose": "1画像からTripoSGのTRIMESHを生成しSkinTokenでリグ付きGLBへ変換し、BlenderのMMD ToolsでPMX化とVMD適用を試す工程。MMD互換ボーンと自動変換スクリプトは未検証でありVRChat完成品の生成を保証しない。",

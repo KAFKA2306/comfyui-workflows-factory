@@ -21,6 +21,7 @@ sources: ["https://imoz.jp/humanizer.ja.txt"]
 - [自律改善・記憶・監視](design/agent-loop.md)：毎時の調査、修正、評価と実行間メモリ
 - [台帳の保全・復旧](design/durability.md)：永続保存、別PCからの復旧、競合統合、制作と公開の出典管理
 - [制作工程への接続](design/production.md)：ComfyUIへの投入、出力回収、制作先への受け渡し
+- [Blender SkillsとMCPで静的3D素材を作る](design/blender-mcp.md)：環境の復元、接続確認、FBXの検証
 - [作品構成と演出](design/creative.md)：制作単位の依存関係と変更の影響
 
 ## ナレッジ

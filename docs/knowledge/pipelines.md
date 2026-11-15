@@ -25,6 +25,7 @@ ComfyUIのWorkflow JSONは `workflows`、複数のツールをつなぐ工程は
 | 話し動画のShorts化 | [clipcut](https://github.com/dancolta/clipcut) | MP4 |
 | Codexで入力画像を生成 | [Codex imagegen](https://github.com/openai/codex/blob/main/codex-rs/skills/src/assets/samples/imagegen/SKILL.md) | プロジェクト内のPNG（ComfyUI入力用） |
 | KAFKA 3D：4方向画像→Pixal3D→Blender | [公式Pixal3Dテンプレート](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/3d_pixal3d_multi_views.json) → [Blender](https://projects.blender.org/blender/blender) | GLB・確認用PNG（後段スクリプト未登録） |
+| 静的な3D小物を作る | [Blender Skills → MCP for Blender → Blender](../design/blender-mcp.md) | BLEND・FBX・PNG |
 | しゃふか：1画像→TripoSG→SkinToken→MMD | [TripoSGノード](https://github.com/tungthedev/ComfyUI-TripoSG) → [SkinToken](https://github.com/Rizzlord/ComfyUI-SkinToken) → [MMD Tools](https://github.com/MMD-Blender/blender_mmd_tools) | リグ付きGLB・PMX（自動変換未検証） |
 
 ## 歌詞から文字PVを作る
