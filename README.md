@@ -3,7 +3,7 @@ id: "readme"
 title: "ComfyUI Workflow収集・評価基盤"
 kind: "index"
 status: "active"
-updated: "2026-11-08"
+updated: "2026-11-17"
 tags: ["ComfyUI","Workflow","制作","8領域","uv"]
 related: ["docs/README.md","src/gwp/discovery.py"]
 sources: ["https://github.com/Comfy-Org/ComfyUI","https://github.com/Comfy-Org/workflow_templates"]
@@ -13,9 +13,9 @@ sources: ["https://github.com/Comfy-Org/ComfyUI","https://github.com/Comfy-Org/w
 
 公開されているComfyUIのWorkflowを発見・収集・評価・選定し、出典と改訂履歴を保全して制作基盤へ引き渡すためのリポジトリです。8つの制作目的を対等に扱います。作品の生成・完成・公開と実機での品質、速度、VRAM、失敗率の検証は製造基盤の責任であり、収集の成功を制作の成功とは扱いません。
 
-## 現時点の最有力Workflow
+## Workflowを選ぶ
 
-**[8領域の最有力候補・原典・代替・未検証事項を見る](docs/knowledge/best-workflows.md)**。人間向けの判断入口です。収集候補の人気順位と実機で品質を確認した「ベスト」は区別しています。
+制作に使うWorkflowを探すときは、[Workflow選定と採用の基準](docs/knowledge/best-workflows.md)から始めてください。8領域ごとの第一候補、代替候補、原典、採用前に確かめる条件を掲載しています。
 
 ## 対等な8つの制作目的
 

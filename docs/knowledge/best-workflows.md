@@ -1,17 +1,19 @@
 ---
 id: "knowledge-best-workflows"
-title: "現行の最有力Workflowと採用判断"
+title: "Workflow選定と採用の基準"
 kind: "knowledge"
 status: "active"
-updated: "2026-11-10"
+updated: "2026-11-17"
 tags: ["最良候補","制作領域","選定","比較","検証"]
 related: ["config/registry.json","data/workflow_registry.json","src/gwp/evaluate.py","src/gwp/select.py","docs/knowledge/pipelines.md","docs/design/production.md"]
 sources: ["https://github.com/Comfy-Org/workflow_templates","https://github.com/Comfy-Org/ComfyUI","https://github.com/TencentARC/Pixal3D","https://github.com/VAST-AI-Research/TripoSG"]
 ---
 
-# いま何が最良候補なのか
+# Workflow選定と採用の基準
 
-**対象：2026-11-10時点の `config/registry.json` に明示登録された15個のComfyUI Workflow候補と9個の制作パイプライン。** このページは、人間が用途・理由・原典・代替・制約を理解するための入口。収集済み全候補の確定順位や、実機で品質を実証した「世界最高」の宣言ではない。
+8つの制作領域でComfyUI Workflowを選定・比較・採用するときは、この文書を最初に参照する。制作目的に合う第一候補と代替を確認し、採用前に実機での比較結果と利用条件を確かめる。
+
+掲載範囲は、2026-11-17時点の[登録設定](../../config/registry.json)にある15件のWorkflow候補と10件の制作パイプライン。採用と制作の実績は[収集・制作台帳](../../data/workflow_registry.json)で確認する。
 
 ## まず結論
 
@@ -56,7 +58,7 @@ sources: ["https://github.com/Comfy-Org/workflow_templates","https://github.com/
 | 2D素材 | [`isometric-tiles`](https://github.com/0xheycat/isometric-game-skills/blob/main/skills/seamless-isometric-terrain/scripts/MEOWART_iso_tile_transparent_resepD_v3.json) | 地形タイル |
 | 画像 | [`seedvr2-upscale`](https://github.com/0c0/ComfyUI-Roundabout/blob/main/workflows/utility_seedvr2_upscale.json) | 高精細化 |
 
-**複合工程は別管理。** [制作パイプライン一覧](pipelines.md)には、歌詞PV、Shorts、Codex imagegen→ComfyUI、Pixal3D→Blender、TripoSG→SkinToken→MMDなど9件の入出力と、未実装箇所を記録している。Workflow JSONだけで制作工程全体が完結すると誤解しない。
+[制作パイプライン一覧](pipelines.md)では、歌詞PV、Shorts、Codex imagegenからComfyUIへの引き渡し、Blenderによる静的3D小物の制作など、複合工程の入出力と未実装箇所を確認できる。
 
 ## 個別人気・更新頻度・第三者制作事例による評価設計
 

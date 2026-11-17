@@ -3,7 +3,7 @@ id: "design-production"
 title: "ComfyUIと制作工程の接続"
 kind: "design"
 status: "active"
-updated: "2026-11-04"
+updated: "2026-11-17"
 tags: ["制作","素材","受け渡し","uv"]
 related: ["src/gwp/production_job.py","src/gwp/production.py"]
 sources: ["https://github.com/Comfy-Org/workflow_templates"]
@@ -12,6 +12,8 @@ sources: ["https://github.com/Comfy-Org/workflow_templates"]
 # ComfyUIと制作工程の接続
 
 ComfyUIにWorkflowを送信して素材を回収し、制作先へ渡す手順を示す。作品の品質と公開状態は、素材を受け取った制作先で確認する。
+
+使うWorkflowを決める前に、[Workflow選定と採用の基準](../knowledge/best-workflows.md)で制作目的に合う候補と採用条件を確認する。
 
 ## API形式のWorkflowを実行する
 

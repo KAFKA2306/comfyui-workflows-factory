@@ -3,7 +3,7 @@ id: "docs-index"
 title: "設計書とナレッジの索引"
 kind: "index"
 status: "active"
-updated: "2026-11-08"
+updated: "2026-11-17"
 tags: ["索引","設計","ナレッジ"]
 related: ["docs/design/system.md","docs/knowledge/registry.md","docs/knowledge/best-workflows.md"]
 sources: ["https://imoz.jp/humanizer.ja.txt"]
@@ -26,8 +26,7 @@ sources: ["https://imoz.jp/humanizer.ja.txt"]
 
 ## ナレッジ
 
-- [現行の最有力Workflow](knowledge/best-workflows.md)：8領域の第一候補、代替、原典、未検証事項、採用判断
-
+- [Workflow選定と採用の基準](knowledge/best-workflows.md)：8領域の第一候補、代替、原典、採用前に確かめる条件
 - [Workflow台帳と用語](knowledge/registry.md)：収集データの構造、状態、検索方法
 - [一次資料と情報源](knowledge/sources.md)：公開元の区分、原典と利用条件の確認
 - [外部ツールの制作パイプライン](knowledge/pipelines.md)：LRC、文字PV、字幕動画の工程と出典
