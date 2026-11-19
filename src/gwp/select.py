@@ -149,18 +149,22 @@ def repository_metadata(catalog, repo):
 
 def select_workflows(catalog, registry, mission, metadata=None, *, sort="suitable",
                      min_stars=0, updated_within_days=None, inspected_only=False,
-                     term="", now=None):
+                     term="", now=None, refresh_api=None):
     if mission not in registry["missions"] or mission not in MISSION_CATEGORIES:
         raise ValueError("不明な制作領域: " + mission)
     if sort not in ("suitable", "popular", "latest"):
         raise ValueError("sortはsuitable、popular、latestのいずれかです")
     if min_stars < 0 or (updated_within_days is not None and updated_within_days < 0):
         raise ValueError("絞り込み条件は0以上が必要です")
+    rows = candidates(catalog, registry, mission, inspected_only=inspected_only, term=term)
+    if refresh_api is not None:
+        rows = list(rows)
+        metadata = refresh_metadata(refresh_api, rows)
     now = now or datetime.now(timezone.utc)
     metadata = metadata or {}
     cutoff = now - timedelta(days=updated_within_days) if updated_within_days is not None else None
     result = []
-    for item in candidates(catalog, registry, mission, inspected_only=inspected_only, term=term):
+    for item in rows:
         repo = item["source"].removeprefix("github:")
         meta = metadata.get(repo) or repository_metadata(catalog, repo)
         stars = meta.get("stargazers_count")
@@ -225,16 +229,12 @@ def main(argv=None):
     try:
         catalog = load_catalog(args.catalog, allow_missing=False)
         registry = load_registry(args.registry)
-        source_candidates = list(candidates(
-            catalog, registry, args.mission,
-            inspected_only=args.inspected_only, term=args.term))
-        metadata = {} if args.offline else refresh_metadata(
-            API(os.environ.get("GITHUB_TOKEN")), source_candidates)
         found = select_workflows(
-            catalog, registry, args.mission, metadata,
+            catalog, registry, args.mission,
             sort=args.sort, min_stars=args.min_stars,
             updated_within_days=args.updated_within_days,
-            inspected_only=args.inspected_only, term=args.term)
+            inspected_only=args.inspected_only, term=args.term,
+            refresh_api=None if args.offline else API(os.environ.get("GITHUB_TOKEN")))
     except (OSError, ValueError, KeyError) as exc:
         parser.exit(2, f"Workflowの選定に失敗: {exc}\n")
 
