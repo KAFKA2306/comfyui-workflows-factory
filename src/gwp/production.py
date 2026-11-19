@@ -104,13 +104,6 @@ class LocalComfyUI:
             raise ValueError("空の生成物です")
         return {"sha256": hasher.hexdigest(), "bytes": size}
 
-    def download(self, filename, subfolder, file_type):
-        url = self.base_url + "/view?" + urlencode({"filename": filename, "subfolder": subfolder, "type": file_type})
-        with urlopen(Request(url), timeout=60) as res:
-            value = res.read(MAX_FILE_BYTES + 1)
-        if len(value) > MAX_FILE_BYTES:
-            raise ValueError("出力が256MiBを超えています")
-        return value
 
 
 def submit_job(target, graph, patches, backend, client_id):
